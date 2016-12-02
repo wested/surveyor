@@ -12,6 +12,7 @@ module Surveyor
         # Associations
         has_many :sections, class_name: 'SurveySection', :dependent => :destroy
         has_many :response_sets
+        has_many :responses, through: :response_sets
         has_many :translations, :class_name => "SurveyTranslation"
         attr_accessible *PermittedParams.new.survey_attributes if defined? ActiveModel::MassAssignmentSecurity
 
@@ -89,6 +90,10 @@ module Surveyor
         {:title => self.title, :description => self.description}.with_indifferent_access.merge(
           t ? YAML.load(t.translation || "{}").with_indifferent_access : {}
         )
+      end
+
+      def responses?
+        responses.count > 0
       end
     end
   end
