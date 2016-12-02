@@ -151,6 +151,7 @@ module Surveyor
             fail "api_id missing from response #{ord}" unless api_id
 
             existing = Response.where(:api_id => api_id).first
+            response_hash[:answer_id] = Array(response_hash[:answer_id]).join # needed to fix multi-select checkbox
             updateable_attributes = response_hash.permit(response_hash.keys.reject { |k, v| k == 'api_id' })
 
             if self.class.has_blank_value?(response_hash)
