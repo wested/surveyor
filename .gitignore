@@ -28,3 +28,6 @@ testbed
 surveys/fixtures/*.yml
 .rvmrc
 .sass-cache/**/*.sassc
+
+## rubymine
+.idea
