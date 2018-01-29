@@ -63,7 +63,7 @@ describe ResponseSet do
     let(:answer_id) { 137 }
 
     def ui_response(attrs={})
-      { 'question_id' => question_id.to_s, 'api_id' => api_id }.merge(attrs)
+      PermittedParams.new({ 'question_id' => question_id.to_s, 'api_id' => api_id }.merge(attrs)).strong_parameters
     end
 
     def do_ui_update

@@ -152,7 +152,8 @@ module Surveyor
 
             existing = Response.where(:api_id => api_id).first
             response_hash[:answer_id] = Array(response_hash[:answer_id]).join # needed to fix multi-select checkbox
-            updateable_attributes = response_hash.permit(response_hash.keys.reject { |k, v| k == 'api_id' })
+
+            updateable_attributes = response_hash.respond_to?(:permit) ? response_hash.permit(response_hash.keys.reject { |k, v| k == 'api_id' }) : response_hash.reject { |k, v| k == 'api_id' }
 
             if self.class.has_blank_value?(response_hash)
               existing.destroy if existing
