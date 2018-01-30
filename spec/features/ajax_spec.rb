@@ -130,7 +130,12 @@ describe "saving with ajax", js: true do
     response_set = start_survey('Everything')
     click_button "Groups"
     expect(page).to have_content("How interested are you in the following?")
-    within( grid_row("weddings")){ choose "interested" }
+
+    # FIXME
+    puts "****** this fails but if you look at the screenshot it is actually there ******"
+    page.save_screenshot(File.join(Rails.root, "tmp", "grid.png"), :full => true)
+    within( grid_row("weddings")) { choose "interested" }
+
     wait_for_ajax
     expect(response_set.count).to eq(1)
   end
