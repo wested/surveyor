@@ -34,6 +34,15 @@ module Surveyor
         @sections.last == @section ? submit_tag(t('surveyor.click_here_to_finish').html_safe, :name => "finish") : submit_tag(t('surveyor.next_section').html_safe, :name => "section[#{@sections[next_index].id}]")
       end
 
+      def save_section
+        submit_tag(t('surveyor.save_section').html_safe, :name => "section[#{@section.id}]")
+      end
+
+      def section_last_updated_at(section)
+        survey_section_question_ids = section.questions.map(&:id);
+        @response_set.responses.where(question: survey_section_question_ids).first.updated_at
+      end
+
       # Questions
       def q_text(q, context=nil, locale=nil)
         "#{next_question_number(q) unless (q.dependent? or q.display_type == "label" or q.display_type == "image" or q.part_of_group?)}#{q.text_for(nil, context, locale)}"

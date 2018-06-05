@@ -12,6 +12,14 @@
     .previous_section= previous_section
     = render 'partials/dependents' unless @dependents.empty?
     = render "/partials/section", :f => f
+
+    - if Surveyor.save_section
+      = hidden_field_tag :save_only, true
+      .save_section
+        = save_section
+        %br
+        %small= section_last_updated_at(@section).to_s(:default)
+
     .next_section= next_section
   %br
 
