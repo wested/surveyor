@@ -18,7 +18,7 @@
       .save_section
         = save_section
         %br
-        %small= section_last_updated_at(@section).to_s(:default)
+        %small= section_last_updated_at(@section).try(:to_s, :default)
 
     .next_section= next_section
   %br
