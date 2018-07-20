@@ -40,10 +40,9 @@ module Surveyor
 
       def section_last_updated_at(section)
         survey_section_question_ids = section.questions.map(&:id)
-        first_question = @response_set.responses.where(question: survey_section_question_ids).first
+        last_updated_question = @response_set.responses.where(question: survey_section_question_ids).select('MAX(updated_at) updated_at').first
 
-        # use the timestamp for the first question in the section since all questions in a section get saved at the same time
-        first_question.try(:updated_at)
+        last_updated_question.try(:updated_at)
       end
 
       # Questions
