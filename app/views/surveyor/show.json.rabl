@@ -4,7 +4,7 @@ attribute :created_at
 attribute :completed_at
 node(:survey_id){|rs| rs.survey.api_id }
 
-child (@response_set.responses || []) => :responses do
+child (@response_set.responses.all.to_a || []) => :responses do
   attribute :api_id => :uuid
   attribute :created_at
   attribute :updated_at => :modified_at

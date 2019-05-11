@@ -255,7 +255,9 @@ describe Surveyor::Parser do
       questions.each{|attrs| attrs.each{|k,v| expect(Question.where(reference_identifier: attrs[:reference_identifier]).first[k]).to eq(v)} }
       answers_1.each{|attrs| attrs.each{|k,v| expect(Question.where(reference_identifier: "1").first.answers.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
       answers_2.each{|attrs| attrs.each{|k,v| expect(Question.where(reference_identifier: "2").first.answers.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
-      correct_answers.each{|attrs| expect(Question.where(reference_identifier: attrs[:question_reference_identifier]).first.correct_answer.text).to eq(attrs[:correct_answer_text]) }
+      correct_answers.each{|attrs|
+        expect(Question.where(reference_identifier: attrs[:question_reference_identifier]).first.correct_answer.text).to eq(attrs[:correct_answer_text])
+      }
     end
   end
   context "mandatory" do

@@ -431,7 +431,9 @@ describe ResponseSet, "#as_json" do
           FactoryGirl.create(:response, :question => FactoryGirl.create(:question), :answer => FactoryGirl.create(:answer), :string_value => '2')])
   }
 
-  let(:js) {rs.as_json}
+  let(:js) {
+    rs.as_json
+  }
 
   it "should include uuid, survey_id" do
     js[:uuid].should == rs.api_id
