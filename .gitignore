@@ -24,7 +24,6 @@ chromedriver.log
 .ruby-gemset
 
 ## PROJECT::SPECIFIC
-testbed
 surveys/fixtures/*.yml
 .rvmrc
 .sass-cache/**/*.sassc
