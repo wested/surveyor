@@ -12,34 +12,35 @@ describe Response, "when saving a response" do
 
   it "should be invalid without a question" do
     @response.question_id = nil
-    @response.should have(1).error_on(:question_id)
+    @response.valid?
+    expect(@response.errors[:question_id].size).to eq(1)
   end
 
   it "should be correct if the question has no correct_answer_id" do
     @response.question.correct_answer_id.should be_nil
-    @response.correct?.should be_true
+    @response.correct?.should be_truthy
   end
 
   it "should be correct if the answer's response class != answer" do
     @response.answer.response_class.should_not == "answer"
-    @response.correct?.should be_true
+    @response.correct?.should be_truthy
   end
 
   it "should be (in)correct if answer_id is (not) equal to question's correct_answer_id" do
     @answer = FactoryGirl.create(:answer, :response_class => "answer")
     @question = FactoryGirl.create(:question, :correct_answer => @answer)
     @response = FactoryGirl.create(:response, :question => @question, :answer => @answer)
-    @response.correct?.should be_true
+    @response.correct?.should be_truthy
     @response.answer = FactoryGirl.create(:answer, :response_class => "answer").tap { |a| a.id = 143 }
-    @response.correct?.should be_false
+    @response.correct?.should be_falsey
   end
-  
+
   it "should be in order by created_at" do
     @response.response_set.should_not be_nil
     response2 = FactoryGirl.create(:response, :question => FactoryGirl.create(:question), :answer => FactoryGirl.create(:answer), :response_set => @response.response_set, :created_at => (@response.created_at + 1))
     Response.all.should == [@response, response2]
   end
-  
+
   describe "returns the response as the type requested" do
     it "returns 'string'" do
       @response.string_value = "blah"

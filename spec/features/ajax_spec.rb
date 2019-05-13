@@ -35,7 +35,7 @@ describe "saving with ajax", js: true do
   it "radio button with string and free text" do
     # #236 - ":text"- field doesn't show up in the multi-select questions
     # #234 - It's possible to enter the value without selecting a radiobutton
-    pending "better selectors"
+    skip "better selectors"
     response_set = start_survey('Everything')
     expect(page).to have_content("What was the last room you painted, and what color?")
     save_and_open_page
@@ -54,7 +54,7 @@ describe "saving with ajax", js: true do
   it "checkbox with string and free text" do
     # #236 - ":text"- field doesn't show up in the multi-select questions
     # #234 - It's possible to enter the value without selecting a radiobutton
-    pending "better selectors"
+    skip "better selectors"
     response_set = start_survey('Everything')
     expect(page).to have_content("What rooms have you painted, and what color?")
     save_and_open_page
@@ -98,7 +98,7 @@ describe "saving with ajax", js: true do
     expect(response_set.for("color_run_date", "date").first.date_value).to eq(the_15th.to_s)
   end
   it "saves a time response" do
-    pending "a bettter time picker"
+    skip "a bettter time picker"
     # response_set = start_survey('Everything')
     # expect(page).to have_content("What time does it start?")
     # q = question("color_run_time")
@@ -110,7 +110,7 @@ describe "saving with ajax", js: true do
     # expect(response_set.for("color_run_time", "datetime").first.time_value).to eq("#{the_15th.to_s} 00:00:00")
   end
   it "saves a datetime response" do
-    pending "a bettter datetime picker"
+    skip "a bettter datetime picker"
     # response_set = start_survey('Everything')
     # expect(page).to have_content("When is your next hair color appointment?")
     # q = question("hair_appointment")
@@ -123,7 +123,7 @@ describe "saving with ajax", js: true do
     # expect(response_set.for("hair_appointment", "datetime").first.datetime_value).to eq("11:45:00")
   end
   it "saves a slider response" do
-    pending "move slider programmatically"
+    skip "move slider programmatically"
   end
   it "saves a grid response" do
     # #339 - Grid question responses fail to store via JavaScript
@@ -193,18 +193,18 @@ describe "saving with ajax", js: true do
     click_button "Special"
 
     check "No other heating source"
-    expect(checkbox("heat2", "neg_1").disabled?).to be_true
-    expect(checkbox("heat2", "neg_2").disabled?).to be_true
+    expect(checkbox("heat2", "neg_1").disabled?).to be_truthy
+    expect(checkbox("heat2", "neg_2").disabled?).to be_truthy
 
     uncheck "No other heating source"
-    expect(checkbox("heat2", "neg_1").disabled?).to be_false
+    expect(checkbox("heat2", "neg_1").disabled?).to be_falsey
 
     check "Electric"
-    expect(checkbox("heat2", "neg_1").disabled?).to be_false
+    expect(checkbox("heat2", "neg_1").disabled?).to be_falsey
 
     check "Refused"
-    expect(checkbox("heat2", "1").disabled?).to be_true
-    expect(checkbox("heat2", "neg_2").disabled?).to be_true
+    expect(checkbox("heat2", "1").disabled?).to be_truthy
+    expect(checkbox("heat2", "neg_2").disabled?).to be_truthy
   end
 end
 

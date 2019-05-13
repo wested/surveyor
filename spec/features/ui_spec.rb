@@ -92,7 +92,7 @@ describe "ui interactions" do
       expect(response_set.for("hair_appointment", "datetime").first.datetime_value).to eq(Time.zone.parse("2014-06-08 17:00:00"))
     end
     it "radio button with date" do
-      pending "better selectors"
+      skip "better selectors"
       # Issue 207 - Create separate fields for date and time
       response_set = start_survey('Everything')
       expect(page).to have_content("What is your birth date?")
@@ -105,7 +105,7 @@ describe "ui interactions" do
       expect(response_set.for("birth_date", "date").first.date_value).to eq("2000-01-01")
     end
     it "checkbox with date" do
-      pending "better selectors"
+      skip "better selectors"
       # Issue 207 - Create separate fields for date and time
       response_set = start_survey('Everything')
       expect(page).to have_content("What is your birth date?")
@@ -118,7 +118,7 @@ describe "ui interactions" do
       expect(response_set.for("birth_time", "time").first.date_value).to eq("00:01")
     end
     it "slider" do
-      pending "move slider programmatically"
+      skip "move slider programmatically"
     end
   end
   context "saves group responses" do

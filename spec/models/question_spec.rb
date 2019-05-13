@@ -7,10 +7,11 @@ describe Question do
   context "when creating" do
     it "is invalid without #text" do
       question.text = nil
-      question.should have(1).error_on :text
+      question.valid?
+      expect(question.errors[:text].size).to eq(1)
     end
     it "#is_mandantory == false by default" do
-      question.mandatory?.should be_false
+      question.mandatory?.should be_falsey
     end
     it "converts #pick to string" do
       question.pick.should == "none"
@@ -28,12 +29,12 @@ describe Question do
     end
     it "#part_of_group? and #solo? are aware of question groups" do
       question.question_group = FactoryGirl.create(:question_group)
-      question.solo?.should be_false
-      question.part_of_group?.should be_true
+      question.solo?.should be_falsey
+      question.part_of_group?.should be_truthy
 
       question.question_group = nil
-      question.solo?.should be_true
-      question.part_of_group?.should be_false
+      question.solo?.should be_truthy
+      question.part_of_group?.should be_falsey
     end
   end
 
@@ -44,7 +45,7 @@ describe Question do
     before do
       [answer_1, answer_2, answer_3].each{|a| question.answers << a }
     end
-    it{ question.should have(3).answers}
+    it{ question.answers.size.should eq(3)}
     it "gets answers in order" do
       question.answers.order("display_order asc").should == [answer_2, answer_3, answer_1]
       question.answers.order("display_order asc").map(&:display_order).should == [1,2,3]
@@ -64,7 +65,7 @@ describe Question do
       dependency.stub(:is_met?).with(response_set).and_return true
     end
     it "checks its dependency" do
-      question.triggered?(response_set).should be_true
+      question.triggered?(response_set).should be_truthy
     end
     it "deletes its dependency when deleted" do
       d_id = question.dependency.id

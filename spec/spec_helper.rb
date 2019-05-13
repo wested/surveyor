@@ -81,7 +81,7 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before do
+  config.before(:each) do |example|
     if example.metadata[:clean_with_truncation] || example.metadata[:js]
       DatabaseCleaner.strategy = :truncation
     else
@@ -93,6 +93,8 @@ RSpec.configure do |config|
   config.after do
     DatabaseCleaner.clean
   end
+
+  config.infer_spec_type_from_file_location!
 end
 JsonSpec.configure do
   exclude_keys "id", "created_at", "updated_at", "uuid", "modified_at", "completed_at"
