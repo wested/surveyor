@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake', '< 11.0')
   s.add_development_dependency('sqlite3', '= 1.3.6')
   s.add_development_dependency('bundler', '~> 1.16.1')
-  s.add_development_dependency('rspec-rails', '~> 2.99')
+  s.add_development_dependency('rspec-rails', '~> 3.0')
   s.add_development_dependency('capybara', '~> 2.2.1')
   s.add_development_dependency('launchy', '~> 2.4.2')
   s.add_development_dependency('poltergeist')

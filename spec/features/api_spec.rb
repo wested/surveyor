@@ -34,7 +34,7 @@ describe "surveyor API" do
     it "allows survey modifications" do
       survey = Survey.where(title: "Favorites").first
       survey.extend title_modification_module("MODIFIED")
-      Survey.stub_chain(:where, :order).and_return([survey])
+      allow(Survey).to receive_message_chain(:where, :order).and_return([survey])
       visit "/surveys/favorites.json"
       expect(json_response).to be_json_eql(%("MODIFIED Favorites")).at_path("title")
     end

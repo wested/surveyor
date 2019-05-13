@@ -7,7 +7,6 @@ rescue LoadError => e
 end
 
 require 'rspec/rails'
-require 'rspec/autorun'
 
 require 'capybara/rails'
 require 'capybara/rspec'
@@ -33,8 +32,6 @@ RSpec.configure do |config|
   config.include SurveyorAPIHelpers
   config.include SurveyorUIHelpers
   config.include WaitForAjax
-
-  config.treat_symbols_as_metadata_keys_with_true_values = true
 
   # == Mock Framework
   #
@@ -95,6 +92,8 @@ RSpec.configure do |config|
   end
 
   config.infer_spec_type_from_file_location!
+
+  config.raise_errors_for_deprecations!
 end
 JsonSpec.configure do
   exclude_keys "id", "created_at", "updated_at", "uuid", "modified_at", "completed_at"

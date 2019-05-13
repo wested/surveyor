@@ -169,7 +169,7 @@ describe SurveyorController do
     }
     shared_examples "#update action" do
       before do
-        ResponseSet.stub_chain(:includes, :where, :first).and_return(response_set)
+        allow(ResponseSet).to receive_message_chain(:includes, :where, :first).and_return(response_set)
         responses_ui_hash['11'] = {'api_id' => 'something', 'answer_id' => '56', 'question_id' => '9'}
       end
       it "saves responses" do
@@ -233,7 +233,7 @@ describe SurveyorController do
 
       it_behaves_like "#update action"
       it "returns dependencies" do
-        ResponseSet.stub_chain(:includes, :where, :first).and_return(response_set)
+        allow(ResponseSet).to receive_message_chain(:includes, :where, :first).and_return(response_set)
         expect(response_set).to receive(:all_dependencies).and_return({"show" => ['q_1'], "hide" => ['q_2']})
 
         do_put
