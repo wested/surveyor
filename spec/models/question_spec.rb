@@ -11,30 +11,30 @@ describe Question do
       expect(question.errors[:text].size).to eq(1)
     end
     it "#is_mandantory == false by default" do
-      question.mandatory?.should be_falsey
+      expect(question.mandatory?).to be_falsey
     end
     it "converts #pick to string" do
-      question.pick.should == "none"
+      expect(question.pick).to eq("none")
       question.pick = :one
-      question.pick.should == "one"
+      expect(question.pick).to eq("one")
       question.pick = nil
-      question.pick.should == nil
+      expect(question.pick).to eq(nil)
     end
     it "#renderer == 'default' when #display_type = nil" do
       question.display_type = nil
-      question.renderer.should == :default
+      expect(question.renderer).to eq(:default)
     end
     it "has #api_id with 36 characters by default" do
-      question.api_id.length.should == 36
+      expect(question.api_id.length).to eq(36)
     end
     it "#part_of_group? and #solo? are aware of question groups" do
       question.question_group = FactoryGirl.create(:question_group)
-      question.solo?.should be_falsey
-      question.part_of_group?.should be_truthy
+      expect(question.solo?).to be_falsey
+      expect(question.part_of_group?).to be_truthy
 
       question.question_group = nil
-      question.solo?.should be_truthy
-      question.part_of_group?.should be_falsey
+      expect(question.solo?).to be_truthy
+      expect(question.part_of_group?).to be_falsey
     end
   end
 
@@ -45,15 +45,15 @@ describe Question do
     before do
       [answer_1, answer_2, answer_3].each{|a| question.answers << a }
     end
-    it{ question.answers.size.should eq(3)}
+    it{ expect(question.answers.size).to eq(3)}
     it "gets answers in order" do
-      question.answers.order("display_order asc").should == [answer_2, answer_3, answer_1]
-      question.answers.order("display_order asc").map(&:display_order).should == [1,2,3]
+      expect(question.answers.order("display_order asc")).to eq([answer_2, answer_3, answer_1])
+      expect(question.answers.order("display_order asc").map(&:display_order)).to eq([1,2,3])
     end
     it "deletes child answers when deleted" do
       answer_ids = question.answers.map(&:id)
       question.destroy
-      answer_ids.each{|id| Answer.find_by_id(id).should be_nil}
+      answer_ids.each{|id| expect(Answer.find_by_id(id)).to be_nil}
     end
   end
 
@@ -62,15 +62,15 @@ describe Question do
     let(:dependency){ FactoryGirl.create(:dependency) }
     before do
       question.dependency = dependency
-      dependency.stub(:is_met?).with(response_set).and_return true
+      allow(dependency).to receive(:is_met?).with(response_set).and_return true
     end
     it "checks its dependency" do
-      question.triggered?(response_set).should be_truthy
+      expect(question.triggered?(response_set)).to be_truthy
     end
     it "deletes its dependency when deleted" do
       d_id = question.dependency.id
       question.destroy
-      Dependency.find_by_id(d_id).should be_nil
+      expect(Dependency.find_by_id(d_id)).to be_nil
     end
   end
 
@@ -79,11 +79,11 @@ describe Question do
     let(:mustache_context){ Class.new(::Mustache){ def site; "Northwestern"; end; def foo; "bar"; end } }
     it "subsitutes Mustache context variables" do
       question.text = "You are in {{site}}"
-      question.in_context(question.text, mustache_context).should == "You are in Northwestern"
+      expect(question.in_context(question.text, mustache_context)).to eq("You are in Northwestern")
     end
     it "substitues in views" do
       question.text = "You are in {{site}}"
-      question.text_for(nil, mustache_context).should == "You are in Northwestern"
+      expect(question.text_for(nil, mustache_context)).to eq("You are in Northwestern")
     end
   end
 
@@ -107,41 +107,41 @@ describe Question do
       survey.translations << survey_translation
     end
     it "returns its own translation" do
-      YAML.load(survey_translation.translation).should_not be_nil
-      question.translation(:es)[:text].should == "¡Hola!"
+      expect(YAML.load(survey_translation.translation)).not_to be_nil
+      expect(question.translation(:es)[:text]).to eq("¡Hola!")
     end
     it "returns its own default values" do
-      question.translation(:de).should == {"text" => question.text, "help_text" => question.help_text}
+      expect(question.translation(:de)).to eq({"text" => question.text, "help_text" => question.help_text})
     end
     it "returns translations in views" do
-      question.text_for(nil, nil, :es).should == "¡Hola!"
+      expect(question.text_for(nil, nil, :es)).to eq("¡Hola!")
     end
     it "returns default values in views" do
-      question.text_for(nil, nil, :de).should == question.text
+      expect(question.text_for(nil, nil, :de)).to eq(question.text)
     end
   end
 
   context "handling strings" do
     it "#split preserves strings" do
-      question.split(question.text).should == "What is your favorite color?"
+      expect(question.split(question.text)).to eq("What is your favorite color?")
     end
     it "#split(:pre) preserves strings" do
-      question.split(question.text, :pre).should == "What is your favorite color?"
+      expect(question.split(question.text, :pre)).to eq("What is your favorite color?")
     end
     it "#split(:post) preserves strings" do
-      question.split(question.text, :post).should == ""
+      expect(question.split(question.text, :post)).to eq("")
     end
     it "#split splits strings" do
       question.text = "before|after|extra"
-      question.split(question.text).should == "before|after|extra"
+      expect(question.split(question.text)).to eq("before|after|extra")
     end
     it "#split(:pre) splits strings" do
       question.text = "before|after|extra"
-      question.split(question.text, :pre).should == "before"
+      expect(question.split(question.text, :pre)).to eq("before")
     end
     it "#split(:post) splits strings" do
       question.text = "before|after|extra"
-      question.split(question.text, :post).should == "after|extra"
+      expect(question.split(question.text, :post)).to eq("after|extra")
     end
   end
 
@@ -149,29 +149,29 @@ describe Question do
     it "#text_for with #display_type == image" do
       question.text = "rails.png"
       question.display_type = :image
-      question.text_for.should =~ /<img src="\/(images|assets)\/rails\.png" alt="Rails" \/>/
+      expect(question.text_for).to match(/<img src="\/(images|assets)\/rails\.png" alt="Rails" \/>/)
     end
     it "#help_text_for"
     it "#text_for preserves strings" do
-      question.text_for.should == "What is your favorite color?"
+      expect(question.text_for).to eq("What is your favorite color?")
     end
     it "#text_for(:pre) preserves strings" do
-      question.text_for(:pre).should == "What is your favorite color?"
+      expect(question.text_for(:pre)).to eq("What is your favorite color?")
     end
     it "#text_for(:post) preserves strings" do
-      question.text_for(:post).should == ""
+      expect(question.text_for(:post)).to eq("")
     end
     it "#text_for splits strings" do
       question.text = "before|after|extra"
-      question.text_for.should == "before|after|extra"
+      expect(question.text_for).to eq("before|after|extra")
     end
     it "#text_for(:pre) splits strings" do
       question.text = "before|after|extra"
-      question.text_for(:pre).should == "before"
+      expect(question.text_for(:pre)).to eq("before")
     end
     it "#text_for(:post) splits strings" do
       question.text = "before|after|extra"
-      question.text_for(:post).should == "after|extra"
+      expect(question.text_for(:post)).to eq("after|extra")
     end
   end
 end

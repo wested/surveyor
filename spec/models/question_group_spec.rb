@@ -7,30 +7,30 @@ describe QuestionGroup do
   let(:response_set){ FactoryGirl.create(:response_set) }
 
   context "when creating" do
-    it { question_group.should be_valid }
+    it { expect(question_group).to be_valid }
     it "#display_type = inline by default" do
       question_group.display_type = "inline"
-      question_group.renderer.should == :inline
+      expect(question_group.renderer).to eq(:inline)
     end
     it "#renderer == 'default' when #display_type = nil" do
       question_group.display_type = nil
-      question_group.renderer.should == :default
+      expect(question_group.renderer).to eq(:default)
     end
     it "interprets symbolizes #display_type to #renderer" do
       question_group.display_type = "foo"
-      question_group.renderer.should == :foo
+      expect(question_group.renderer).to eq(:foo)
     end
     it "reports DOM ready #css_class based on dependencies" do
       question_group.dependency = dependency
-      dependency.should_receive(:is_met?).and_return(true)
-      question_group.css_class(response_set).should == "g_dependent"
+      expect(dependency).to receive(:is_met?).and_return(true)
+      expect(question_group.css_class(response_set)).to eq("g_dependent")
 
-      dependency.should_receive(:is_met?).and_return(false)
-      question_group.css_class(response_set).should == "g_dependent g_hidden"
+      expect(dependency).to receive(:is_met?).and_return(false)
+      expect(question_group.css_class(response_set)).to eq("g_dependent g_hidden")
 
       question_group.custom_class = "foo bar"
-      dependency.should_receive(:is_met?).and_return(false)
-      question_group.css_class(response_set).should == "g_dependent g_hidden foo bar"
+      expect(dependency).to receive(:is_met?).and_return(false)
+      expect(question_group.css_class(response_set)).to eq("g_dependent g_hidden foo bar")
     end
   end
 
@@ -57,10 +57,10 @@ describe QuestionGroup do
       survey.translations << survey_translation
     end
     it "returns its own translation" do
-      question_group.translation(:es)[:text].should == "¡Adios!"
+      expect(question_group.translation(:es)[:text]).to eq("¡Adios!")
     end
     it "returns its own default values" do
-      question_group.translation(:de).should == {"text" => "Goodbye", "help_text" => nil}
+      expect(question_group.translation(:de)).to eq({"text" => "Goodbye", "help_text" => nil})
     end
   end
 end

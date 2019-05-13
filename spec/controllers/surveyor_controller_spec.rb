@@ -10,7 +10,7 @@ describe SurveyorController do
   let!(:survey_beta)      { FactoryGirl.create(:survey, :title => "Alphabet", :access_code => "alpha", :survey_version => 1)}
   let!(:response_set)      { FactoryGirl.create(:response_set, :survey => survey, :access_code => "pdq")}
   let!(:response_set_beta) { FactoryGirl.create(:response_set, :survey => survey_beta, :access_code => "rst")}
-  before { ResponseSet.stub(:create).and_return(response_set) }
+  before { allow(ResponseSet).to receive(:create).and_return(response_set) }
 
   # match '/', :to                                     => 'surveyor#new', :as    => 'available_surveys', :via => :get
   # match '/:survey_code', :to                         => 'surveyor#create', :as => 'take_survey', :via       => :post
@@ -25,12 +25,12 @@ describe SurveyorController do
     end
     it "renders new" do
       do_get
-      response.should be_success
-      response.should render_template('new')
+      expect(response).to be_success
+      expect(response).to render_template('new')
     end
     it "assigns surveys_by_access_code" do
       do_get
-      assigns(:surveys_by_access_code).should == {"alpha" => [survey_beta,survey]}
+      expect(assigns(:surveys_by_access_code)).to eq({"alpha" => [survey_beta,survey]})
     end
   end
 
@@ -40,43 +40,43 @@ describe SurveyorController do
     end
     it "finds latest version" do
       do_post
-      assigns(:survey).should == survey_beta
+      expect(assigns(:survey)).to eq(survey_beta)
     end
     it "finds specified survey_version" do
       do_post :survey_version => 0
-      assigns(:survey).should == survey
+      expect(assigns(:survey)).to eq(survey)
     end
     it "creates a new response_set" do
-      ResponseSet.should_receive(:create)
+      expect(ResponseSet).to receive(:create)
       do_post
     end
     it "should redirects to the new response_set" do
       do_post
-      response.should redirect_to( edit_my_survey_path(:survey_code => "alpha", :response_set_code  => "pdq"))
+      expect(response).to redirect_to( edit_my_survey_path(:survey_code => "alpha", :response_set_code  => "pdq"))
     end
 
     context "with failures" do
       it "redirect to #new on failed ResponseSet#create" do
-        ResponseSet.should_receive(:create).and_return(false)
+        expect(ResponseSet).to receive(:create).and_return(false)
         do_post
-        response.should redirect_to(available_surveys_path)
+        expect(response).to redirect_to(available_surveys_path)
       end
       it "redirect to #new on failed Survey#find" do
         do_post :survey_code => "missing"
-        response.should redirect_to(available_surveys_path)
+        expect(response).to redirect_to(available_surveys_path)
       end
     end
 
     context "with javascript check, assigned in session" do
       it "enabled" do
         do_post :surveyor_javascript_enabled => "true"
-        session[:surveyor_javascript].should_not be_nil
-        session[:surveyor_javascript].should == "enabled"
+        expect(session[:surveyor_javascript]).not_to be_nil
+        expect(session[:surveyor_javascript]).to eq("enabled")
       end
       it "disabled" do
         post :create, :survey_code => "xyz", :surveyor_javascript_enabled => "not_true"
-        session[:surveyor_javascript].should_not be_nil
-        session[:surveyor_javascript].should == "not_enabled"
+        expect(session[:surveyor_javascript]).not_to be_nil
+        expect(session[:surveyor_javascript]).to eq("not_enabled")
       end
     end
   end
@@ -87,30 +87,30 @@ describe SurveyorController do
     end
     it "renders show" do
       do_get
-      response.should be_success
-      response.should render_template('show')
+      expect(response).to be_success
+      expect(response).to render_template('show')
     end
     it "finds ResponseSet with includes" do
-      ResponseSet.should_receive(:includes).with(:responses => [:question, :answer]).and_return(response_set)
-      response_set.should_receive(:where).with(:access_code => "pdq").and_return(response_set)
-      response_set.should_receive(:first).and_return(response_set)
+      expect(ResponseSet).to receive(:includes).with(:responses => [:question, :answer]).and_return(response_set)
+      expect(response_set).to receive(:where).with(:access_code => "pdq").and_return(response_set)
+      expect(response_set).to receive(:first).and_return(response_set)
       do_get
     end
     it "redirects for missing response set" do
       do_get :response_set_code => "DIFFERENT"
-      response.should redirect_to(available_surveys_path)
+      expect(response).to redirect_to(available_surveys_path)
     end
     it "assigns earlier survey_version" do
       response_set
       do_get
-      assigns[:response_set].should == response_set
-      assigns[:survey].should == survey
+      expect(assigns[:response_set]).to eq(response_set)
+      expect(assigns[:survey]).to eq(survey)
     end
     it "assigns later survey_version" do
       response_set_beta
       do_get :response_set_code => "rst"
-      assigns[:response_set].should == response_set_beta
-      assigns[:survey].should == survey_beta
+      expect(assigns[:response_set]).to eq(response_set_beta)
+      expect(assigns[:survey]).to eq(survey_beta)
     end
   end
 
@@ -121,40 +121,40 @@ describe SurveyorController do
     end
     it "renders edit" do
       do_get
-      response.should be_success
-      response.should render_template('edit')
+      expect(response).to be_success
+      expect(response).to render_template('edit')
     end
     it "assigns survey and response set" do
       do_get
-      assigns[:survey].should == survey
-      assigns[:response_set].should == response_set
+      expect(assigns[:survey]).to eq(survey)
+      expect(assigns[:response_set]).to eq(response_set)
     end
     it "redirects for missing response set" do
       do_get :response_set_code => "DIFFERENT"
-      response.should redirect_to(available_surveys_path)
+      expect(response).to redirect_to(available_surveys_path)
     end
     it "assigns dependents if javascript not enabled" do
-      controller.stub(:get_unanswered_dependencies_minus_section_questions).and_return([FactoryGirl.create(:question)])
-      session[:surveyor_javascript].should be_nil
+      allow(controller).to receive(:get_unanswered_dependencies_minus_section_questions).and_return([FactoryGirl.create(:question)])
+      expect(session[:surveyor_javascript]).to be_nil
       do_get
-      assigns[:dependents].should_not be_empty
+      expect(assigns[:dependents]).not_to be_empty
     end
     it "does not assign dependents if javascript is enabled" do
-      controller.stub(:get_unanswered_dependencies_minus_section_questions).and_return([FactoryGirl.create(:question)])
+      allow(controller).to receive(:get_unanswered_dependencies_minus_section_questions).and_return([FactoryGirl.create(:question)])
       session[:surveyor_javascript] = "enabled"
       do_get
-      assigns[:dependents].should be_empty
+      expect(assigns[:dependents]).to be_empty
     end
     it "assigns earlier survey_version" do
       do_get
-      assigns[:response_set].should == response_set
-      assigns[:survey].should == survey
+      expect(assigns[:response_set]).to eq(response_set)
+      expect(assigns[:survey]).to eq(survey)
     end
     it "assigns later survey_version" do
       survey_beta.sections = [FactoryGirl.create(:survey_section, :survey => survey_beta)]
       do_get :response_set_code => "rst"
-      assigns[:survey].should == survey_beta
-      assigns[:response_set].should == response_set_beta
+      expect(assigns[:survey]).to eq(survey_beta)
+      expect(assigns[:response_set]).to eq(response_set_beta)
 
     end
   end
@@ -173,28 +173,28 @@ describe SurveyorController do
         responses_ui_hash['11'] = {'api_id' => 'something', 'answer_id' => '56', 'question_id' => '9'}
       end
       it "saves responses" do
-        response_set.should_receive(:update_from_ui_hash).with(responses_ui_hash)
+        expect(response_set).to receive(:update_from_ui_hash).with(responses_ui_hash)
         do_put(:r => responses_ui_hash)
       end
       it "does not fail when there are no responses" do
-        lambda { do_put }.should_not raise_error
+        expect { do_put }.not_to raise_error
       end
       context "with update exceptions" do
         it 'retries the update on a constraint violation' do
-          response_set.should_receive(:update_from_ui_hash).ordered.with(responses_ui_hash).and_raise(ActiveRecord::StatementInvalid.new('statement invalid'))
-          response_set.should_receive(:update_from_ui_hash).ordered.with(responses_ui_hash)
+          expect(response_set).to receive(:update_from_ui_hash).ordered.with(responses_ui_hash).and_raise(ActiveRecord::StatementInvalid.new('statement invalid'))
+          expect(response_set).to receive(:update_from_ui_hash).ordered.with(responses_ui_hash)
 
           expect { do_put(:r => responses_ui_hash) }.to_not raise_error
         end
 
         it 'only retries three times' do
-          response_set.should_receive(:update_from_ui_hash).exactly(3).times.with(responses_ui_hash).and_raise(ActiveRecord::StatementInvalid.new('statement invalid'))
+          expect(response_set).to receive(:update_from_ui_hash).exactly(3).times.with(responses_ui_hash).and_raise(ActiveRecord::StatementInvalid.new('statement invalid'))
 
           expect { do_put(:r => responses_ui_hash) }.to raise_error(ActiveRecord::StatementInvalid)
         end
 
         it 'does not retry for other errors' do
-          response_set.should_receive(:update_from_ui_hash).once.with(responses_ui_hash).and_raise('Bad news')
+          expect(response_set).to receive(:update_from_ui_hash).once.with(responses_ui_hash).and_raise('Bad news')
 
           expect { do_put(:r => responses_ui_hash) }.to raise_error('Bad news')
         end
@@ -209,20 +209,20 @@ describe SurveyorController do
       it_behaves_like "#update action"
       it "redirects to #edit without params" do
         do_put
-        response.should redirect_to(edit_my_survey_path(:survey_code => "alpha", :response_set_code => "pdq"))
+        expect(response).to redirect_to(edit_my_survey_path(:survey_code => "alpha", :response_set_code => "pdq"))
       end
       it "completes the found response set on finish" do
         do_put :finish => 'finish'
-        response_set.reload.should be_complete
+        expect(response_set.reload).to be_complete
       end
       it 'flashes completion' do
         do_put :finish => 'finish'
-        flash[:notice].should == "Completed survey"
+        expect(flash[:notice]).to eq("Completed survey")
       end
       it "redirects for missing response set" do
         do_put :response_set_code => "DIFFERENT"
-        response.should redirect_to(available_surveys_path)
-        flash[:notice].should == "Unable to find your responses to the survey"
+        expect(response).to redirect_to(available_surveys_path)
+        expect(flash[:notice]).to eq("Unable to find your responses to the survey")
       end
     end
 
@@ -234,14 +234,14 @@ describe SurveyorController do
       it_behaves_like "#update action"
       it "returns dependencies" do
         ResponseSet.stub_chain(:includes, :where, :first).and_return(response_set)
-        response_set.should_receive(:all_dependencies).and_return({"show" => ['q_1'], "hide" => ['q_2']})
+        expect(response_set).to receive(:all_dependencies).and_return({"show" => ['q_1'], "hide" => ['q_2']})
 
         do_put
-        JSON.parse(response.body).should == {"show" => ['q_1'], "hide" => ["q_2"]}
+        expect(JSON.parse(response.body)).to eq({"show" => ['q_1'], "hide" => ["q_2"]})
       end
       it "returns 404 for missing response set" do
         do_put :response_set_code => "DIFFERENT"
-        response.status.should == 404
+        expect(response.status).to eq(404)
       end
     end
   end
@@ -289,15 +289,15 @@ describe SurveyorController do
       let(:grouped_question_json) { json['sections'][0]['questions_and_groups'][2]['questions'][0] }
 
       it "produces identical JSON except for API IDs and question reference identifers" do
-        solo_question_json['answers'].to_json.should be_json_eql( grouped_question_json['answers'].to_json).excluding("uuid", "reference_identifier")
-        solo_question_json['dependency'].to_json.should be_json_eql( grouped_question_json['dependency'].to_json).excluding("uuid", "reference_identifier")
-        solo_question_json.to_json.should be_json_eql( grouped_question_json.to_json).excluding("uuid", "reference_identifier")
+        expect(solo_question_json['answers'].to_json).to be_json_eql( grouped_question_json['answers'].to_json).excluding("uuid", "reference_identifier")
+        expect(solo_question_json['dependency'].to_json).to be_json_eql( grouped_question_json['dependency'].to_json).excluding("uuid", "reference_identifier")
+        expect(solo_question_json.to_json).to be_json_eql( grouped_question_json.to_json).excluding("uuid", "reference_identifier")
       end
       it "produces the expected reference identifier for the solo question" do
-        solo_question_json['reference_identifier'].should == 'foo_solo'
+        expect(solo_question_json['reference_identifier']).to eq('foo_solo')
       end
       it "produces the expected reference identifer for the question in the group" do
-        grouped_question_json['reference_identifier'].should == 'foo_grouped'
+        expect(grouped_question_json['reference_identifier']).to eq('foo_grouped')
       end
     end
   end
