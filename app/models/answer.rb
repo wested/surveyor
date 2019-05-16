@@ -1,3 +1,3 @@
-class Answer < ActiveRecord::Base
+class Answer < ApplicationRecord
   include Surveyor::Models::AnswerMethods
 end

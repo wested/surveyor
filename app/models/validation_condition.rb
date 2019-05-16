@@ -1,3 +1,3 @@
-class ValidationCondition < ActiveRecord::Base
+class ValidationCondition < ApplicationRecord
   include Surveyor::Models::ValidationConditionMethods
 end

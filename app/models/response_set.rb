@@ -1,3 +1,3 @@
-class ResponseSet < ActiveRecord::Base
+class ResponseSet < ApplicationRecord
   include Surveyor::Models::ResponseSetMethods
 end

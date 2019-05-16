@@ -1,4 +1,4 @@
-class Response < ActiveRecord::Base
+class Response < ApplicationRecord
   include ActionView::Helpers::SanitizeHelper
   include Surveyor::Models::ResponseMethods
 end

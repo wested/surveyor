@@ -6,7 +6,7 @@
   = semantic_form_for(@response_set, :as => :r, :url => surveyor.update_my_survey_path, :html => {:id => "survey_form", :class => @survey.custom_class}) do |f|
     .survey_title= @survey.title
     - @survey.sections.each do |section|
-      = div_for section do
+      = content_tag :div, section do
         %span.title= strip_tags(section.title)
         - group_questions = []
         - answered_questions = []

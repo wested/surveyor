@@ -6,12 +6,12 @@ module Surveyor
   module SurveyorControllerMethods
     extend ActiveSupport::Concern
     included do
-      before_filter :get_current_user, :only => [:new, :create]
-      before_filter :determine_if_javascript_is_enabled, :only => [:create, :update]
-      before_filter :set_response_set_and_render_context, :only => [:edit, :show]
+      before_action :get_current_user, :only => [:new, :create]
+      before_action :determine_if_javascript_is_enabled, :only => [:create, :update]
+      before_action :set_response_set_and_render_context, :only => [:edit, :show]
 
       layout 'surveyor_default'
-      before_filter :set_locale
+      before_action :set_locale
     end
 
     # Actions

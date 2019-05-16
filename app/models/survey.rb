@@ -1,3 +1,3 @@
-class Survey < ActiveRecord::Base
+class Survey < ApplicationRecord
   include Surveyor::Models::SurveyMethods
 end

@@ -14,7 +14,10 @@ require 'capybara/poltergeist'
 require 'factories'
 require 'json_spec'
 require 'database_cleaner'
-require 'rspec/retry'
+require 'rails-controller-testing'
+
+Rails::Controller::Testing.install
+# require 'rspec/retry'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -22,7 +25,14 @@ Dir["./spec/support/**/*.rb"].sort.each {|f| require f}
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
-ActiveRecord::Migration.check_pending! if ::Rails.version >= "4.0" && defined?(ActiveRecord::Migration)
+# Checks for pending migrations and applies them before tests are run.
+# If you are not using ActiveRecord, you can remove these lines.
+begin
+  ActiveRecord::Migration.maintain_test_schema!
+rescue ActiveRecord::PendingMigrationError => e
+  puts e.to_s.strip
+  exit 1
+end
 
 Capybara.javascript_driver = :poltergeist
 
@@ -67,10 +77,10 @@ RSpec.configure do |config|
 
   # rspec-retry
   # https://github.com/rspec/rspec-core/issues/456
-  config.verbose_retry       = true # show retry status in spec process
-  retry_count                = ENV['RSPEC_RETRY_COUNT']
-  config.default_retry_count = retry_count.try(:to_i) || 1
-  puts "RSpec retry count is #{config.default_retry_count}"
+  # config.verbose_retry       = true # show retry status in spec process
+  # retry_count                = ENV['RSPEC_RETRY_COUNT']
+  # config.default_retry_count = retry_count.try(:to_i) || 1
+  # puts "RSpec retry count is #{config.default_retry_count}"
 
   ## Database Cleaner
   config.before :suite do
@@ -79,11 +89,11 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do |example|
-    if example.metadata[:clean_with_truncation] || example.metadata[:js]
+    # if example.metadata[:clean_with_truncation] || example.metadata[:js]
+    #   DatabaseCleaner.strategy = :truncation
+    # else
       DatabaseCleaner.strategy = :truncation
-    else
-      DatabaseCleaner.strategy = :transaction
-    end
+    # end
     DatabaseCleaner.start
   end
 
@@ -95,6 +105,15 @@ RSpec.configure do |config|
 
   config.raise_errors_for_deprecations!
 end
+class ActiveRecord::Base
+  mattr_accessor :shared_connection
+  @@shared_connection = nil
+
+  def self.connection
+    @@shared_connection || retrieve_connection
+  end
+end
+ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 JsonSpec.configure do
   exclude_keys "id", "created_at", "updated_at", "uuid", "modified_at", "completed_at"
 end

@@ -1,4 +1,4 @@
-class SurveySection < ActiveRecord::Base
+class SurveySection < ApplicationRecord
   include Surveyor::Models::SurveySectionMethods
 end
 

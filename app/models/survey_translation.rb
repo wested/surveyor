@@ -1,4 +1,4 @@
-class SurveyTranslation < ActiveRecord::Base
+class SurveyTranslation < ApplicationRecord
   include Surveyor::Models::SurveyTranslationMethods
 end
 
