@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('phantomjs', '~> 2.1')
   s.add_development_dependency('cliver', '~> 0.3')
   s.add_development_dependency('json_spec', '~> 1.1.1')
-  s.add_development_dependency('factory_girl')
+  s.add_development_dependency('factory_bot_rails')
   s.add_development_dependency('database_cleaner')
   # s.add_development_dependency('rspec-retry') # needed to specify version compatible with rspec 2
 end

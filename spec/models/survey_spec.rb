@@ -2,7 +2,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Survey do
-  let(:survey){ FactoryGirl.create(:survey) }
+  let(:survey){ create(:survey) }
 
   context "when creating" do
     it "is invalid without #title" do
@@ -34,7 +34,7 @@ describe Survey do
       expect(imposter.errors[:survey_version].size).to eq(1)
     end
     it "doesn't adjust #title when" do
-      original = FactoryGirl.create(:survey, :title => "Foo")
+      original = create(:survey, :title => "Foo")
       expect(original.save).to be_truthy
       original.update_attributes(:title => "Foo")
       expect(original.title).to eq("Foo")
@@ -82,13 +82,13 @@ describe Survey do
   end
 
   context "with survey_sections" do
-    let(:s1){ FactoryGirl.create(:survey_section, :survey => survey, :title => "wise", :display_order => 2)}
-    let(:s2){ FactoryGirl.create(:survey_section, :survey => survey, :title => "er", :display_order => 3)}
-    let(:s3){ FactoryGirl.create(:survey_section, :survey => survey, :title => "bud", :display_order => 1)}
-    let(:q1){ FactoryGirl.create(:question, :survey_section => s1, :text => "what is wise?", :display_order => 2)}
-    let(:q2){ FactoryGirl.create(:question, :survey_section => s2, :text => "what is er?", :display_order => 4)}
-    let(:q3){ FactoryGirl.create(:question, :survey_section => s2, :text => "what is mill?", :display_order => 3)}
-    let(:q4){ FactoryGirl.create(:question, :survey_section => s3, :text => "what is bud?", :display_order => 1)}
+    let(:s1){ create(:survey_section, :survey => survey, :title => "wise", :display_order => 2)}
+    let(:s2){ create(:survey_section, :survey => survey, :title => "er", :display_order => 3)}
+    let(:s3){ create(:survey_section, :survey => survey, :title => "bud", :display_order => 1)}
+    let(:q1){ create(:question, :survey_section => s1, :text => "what is wise?", :display_order => 2)}
+    let(:q2){ create(:question, :survey_section => s2, :text => "what is er?", :display_order => 4)}
+    let(:q3){ create(:question, :survey_section => s2, :text => "what is mill?", :display_order => 3)}
+    let(:q4){ create(:question, :survey_section => s3, :text => "what is bud?", :display_order => 1)}
     before do
       [s1, s2, s3].each{|s| survey.sections << s }
       s1.questions << q1
@@ -114,11 +114,11 @@ describe Survey do
   end
 
   context "serialization" do
-    let(:s1){ FactoryGirl.create(:survey_section, :survey => survey, :title => "wise") }
-    let(:s2){ FactoryGirl.create(:survey_section, :survey => survey, :title => "er") }
-    let(:q1){ FactoryGirl.create(:question, :survey_section => s1, :text => "what is wise?") }
-    let(:q2){ FactoryGirl.create(:question, :survey_section => s2, :text => "what is er?") }
-    let(:q3){ FactoryGirl.create(:question, :survey_section => s2, :text => "what is mill?") }
+    let(:s1){ create(:survey_section, :survey => survey, :title => "wise") }
+    let(:s2){ create(:survey_section, :survey => survey, :title => "er") }
+    let(:q1){ create(:question, :survey_section => s1, :text => "what is wise?") }
+    let(:q2){ create(:question, :survey_section => s2, :text => "what is er?") }
+    let(:q3){ create(:question, :survey_section => s2, :text => "what is mill?") }
     before do
       [s1, s2].each{|s| survey.sections << s }
       s1.questions << q1
@@ -138,7 +138,7 @@ describe Survey do
   context "with translations" do
     require 'yaml'
     let(:survey_translation){
-      FactoryGirl.create(:survey_translation, :locale => :es, :translation => {
+      create(:survey_translation, :locale => :es, :translation => {
         :title => "Un idioma nunca es suficiente"
       }.to_yaml)
     }

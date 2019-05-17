@@ -6,10 +6,10 @@ describe SurveyorController do
     @routes = Surveyor::Engine.routes
   end
 
-  let!(:survey)           { FactoryGirl.create(:survey, :title => "Alphabet", :access_code => "alpha", :survey_version => 0)}
-  let!(:survey_beta)      { FactoryGirl.create(:survey, :title => "Alphabet", :access_code => "alpha", :survey_version => 1)}
-  let!(:response_set)      { FactoryGirl.create(:response_set, :survey => survey, :access_code => "pdq")}
-  let!(:response_set_beta) { FactoryGirl.create(:response_set, :survey => survey_beta, :access_code => "rst")}
+  let!(:survey)           { create(:survey, :title => "Alphabet", :access_code => "alpha", :survey_version => 0)}
+  let!(:survey_beta)      { create(:survey, :title => "Alphabet", :access_code => "alpha", :survey_version => 1)}
+  let!(:response_set)      { create(:response_set, :survey => survey, :access_code => "pdq")}
+  let!(:response_set_beta) { create(:response_set, :survey => survey_beta, :access_code => "rst")}
   before { allow(ResponseSet).to receive(:create).and_return(response_set) }
 
   # match '/', :to                                     => 'surveyor#new', :as    => 'available_surveys', :via => :get
@@ -116,7 +116,7 @@ describe SurveyorController do
 
   context "#edit" do
     def do_get(params = {})
-      survey.sections = [FactoryGirl.create(:survey_section, :survey => survey)]
+      survey.sections = [create(:survey_section, :survey => survey)]
       get :edit, params: { :survey_code => "alpha", :response_set_code => "pdq" }.merge(params)
     end
     it "renders edit" do
@@ -134,13 +134,13 @@ describe SurveyorController do
       expect(response).to redirect_to(available_surveys_path)
     end
     it "assigns dependents if javascript not enabled" do
-      allow(controller).to receive(:get_unanswered_dependencies_minus_section_questions).and_return([FactoryGirl.create(:question)])
+      allow(controller).to receive(:get_unanswered_dependencies_minus_section_questions).and_return([create(:question)])
       expect(session[:surveyor_javascript]).to be_nil
       do_get
       expect(assigns[:dependents]).not_to be_empty
     end
     it "does not assign dependents if javascript is enabled" do
-      allow(controller).to receive(:get_unanswered_dependencies_minus_section_questions).and_return([FactoryGirl.create(:question)])
+      allow(controller).to receive(:get_unanswered_dependencies_minus_section_questions).and_return([create(:question)])
       session[:surveyor_javascript] = "enabled"
       do_get
       expect(assigns[:dependents]).to be_empty
@@ -151,7 +151,7 @@ describe SurveyorController do
       expect(assigns[:survey]).to eq(survey)
     end
     it "assigns later survey_version" do
-      survey_beta.sections = [FactoryGirl.create(:survey_section, :survey => survey_beta)]
+      survey_beta.sections = [create(:survey_section, :survey => survey_beta)]
       do_get :response_set_code => "rst"
       expect(assigns[:survey]).to eq(survey_beta)
       expect(assigns[:response_set]).to eq(response_set_beta)

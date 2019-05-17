@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Response, "when saving a response" do
   before(:each) do
     # @response = Response.new(:question_id => 314, :response_set_id => 159, :answer_id => 1)
-    @response = FactoryGirl.create(:response, :question => FactoryGirl.create(:question), :answer => FactoryGirl.create(:answer))
+    @response = create(:response, :question => create(:question), :answer => create(:answer))
   end
 
   it "should be valid" do
@@ -27,17 +27,17 @@ describe Response, "when saving a response" do
   end
 
   it "should be (in)correct if answer_id is (not) equal to question's correct_answer_id" do
-    @answer = FactoryGirl.create(:answer, :response_class => "answer")
-    @question = FactoryGirl.create(:question, :correct_answer => @answer)
-    @response = FactoryGirl.create(:response, :question => @question, :answer => @answer)
+    @answer = create(:answer, :response_class => "answer")
+    @question = create(:question, :correct_answer => @answer)
+    @response = create(:response, :question => @question, :answer => @answer)
     expect(@response.correct?).to be_truthy
-    @response.answer = FactoryGirl.create(:answer, :response_class => "answer").tap { |a| a.id = 143 }
+    @response.answer = create(:answer, :response_class => "answer").tap { |a| a.id = 143 }
     expect(@response.correct?).to be_falsey
   end
 
   it "should be in order by created_at" do
     expect(@response.response_set).not_to be_nil
-    response2 = FactoryGirl.create(:response, :question => FactoryGirl.create(:question), :answer => FactoryGirl.create(:answer), :response_set => @response.response_set, :created_at => (@response.created_at + 1))
+    response2 = create(:response, :question => create(:question), :answer => create(:answer), :response_set => @response.response_set, :created_at => (@response.created_at + 1))
     expect(Response.all).to eq([@response, response2])
   end
 
@@ -81,9 +81,9 @@ end
 
 describe Response, "applicable_attributes" do
   before(:each) do
-    @who = FactoryGirl.create(:question, :text => "Who rules?")
-    @odoyle = FactoryGirl.create(:answer, :text => "Odoyle", :response_class => "answer")
-    @other = FactoryGirl.create(:answer, :text => "Other", :response_class => "string")
+    @who = create(:question, :text => "Who rules?")
+    @odoyle = create(:answer, :text => "Odoyle", :response_class => "answer")
+    @other = create(:answer, :text => "Other", :response_class => "string")
   end
 
   it "should have string_value if response_type is string" do

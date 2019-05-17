@@ -2,9 +2,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe QuestionGroup do
-  let(:question_group){ FactoryGirl.create(:question_group) }
-  let(:dependency){ FactoryGirl.create(:dependency) }
-  let(:response_set){ FactoryGirl.create(:response_set) }
+  let(:question_group){ create(:question_group) }
+  let(:dependency){ create(:dependency) }
+  let(:response_set){ create(:response_set) }
 
   context "when creating" do
     it { expect(question_group).to be_valid }
@@ -36,10 +36,10 @@ describe QuestionGroup do
 
   context "with translations" do
     require 'yaml'
-    let(:survey){ FactoryGirl.create(:survey) }
-    let(:survey_section){ FactoryGirl.create(:survey_section) }
+    let(:survey){ create(:survey) }
+    let(:survey_section){ create(:survey_section) }
     let(:survey_translation){
-      FactoryGirl.create(:survey_translation, :locale => :es, :translation => {
+      create(:survey_translation, :locale => :es, :translation => {
         :question_groups => {
           :goodbye => {
             :text => "¡Adios!"
@@ -47,7 +47,7 @@ describe QuestionGroup do
         }
       }.to_yaml)
     }
-    let(:question){ FactoryGirl.create(:question) }
+    let(:question){ create(:question) }
     before do
       question_group.text = "Goodbye"
       question_group.reference_identifier = "goodbye"

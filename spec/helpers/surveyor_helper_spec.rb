@@ -3,11 +3,11 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe SurveyorHelper do
   context "numbering" do
     it "should return the question text with number, except for labels, dependencies, images, and grouped questions" do
-      q1 = FactoryGirl.create(:question)
-      q2 = FactoryGirl.create(:question, :display_type => "label")
-      q3 = FactoryGirl.create(:question, :dependency => FactoryGirl.create(:dependency))
-      q4 = FactoryGirl.create(:question, :display_type => "image", :text => "something.jpg")
-      q5 = FactoryGirl.create(:question, :question_group => FactoryGirl.create(:question_group))
+      q1 = create(:question)
+      q2 = create(:question, :display_type => "label")
+      q3 = create(:question, :dependency => create(:dependency))
+      q4 = create(:question, :display_type => "image", :text => "something.jpg")
+      q5 = create(:question, :question_group => create(:question_group))
       expect(helper.q_text(q1)).to eq("<span class='qnum'>1) </span>#{q1.text}")
       expect(helper.q_text(q2)).to eq(q2.text)
       expect(helper.q_text(q3)).to eq(q3.text)
@@ -20,8 +20,8 @@ describe SurveyorHelper do
     require 'mustache'
     let(:mustache_context){ Class.new(::Mustache){ def site; "Northwestern"; end; def somethingElse; "something new"; end; def group; "NUBIC"; end } }
     it "substitues values into Question#text" do
-      q1 = FactoryGirl.create(:question, :text => "You are in {{site}}")
-      label = FactoryGirl.create(:question, :display_type => "label", :text => "Testing {{somethingElse}}")
+      q1 = create(:question, :text => "You are in {{site}}")
+      label = create(:question, :display_type => "label", :text => "Testing {{somethingElse}}")
       expect(helper.q_text(q1, mustache_context)).to eq("<span class='qnum'>1) </span>You are in Northwestern")
       expect(helper.q_text(label, mustache_context)).to eq("Testing something new")
     end
@@ -29,10 +29,10 @@ describe SurveyorHelper do
 
   context "response methods" do
     it "should find or create responses, with index" do
-      q1 = FactoryGirl.create(:question, :answers => [a = FactoryGirl.create(:answer, :text => "different")])
-      q2 = FactoryGirl.create(:question, :answers => [b = FactoryGirl.create(:answer, :text => "strokes")])
-      q3 = FactoryGirl.create(:question, :answers => [c = FactoryGirl.create(:answer, :text => "folks")])
-      rs = FactoryGirl.create(:response_set, :responses => [r1 = FactoryGirl.create(:response, :question => q1, :answer => a), r3 = FactoryGirl.create(:response, :question => q3, :answer => c, :response_group => 1)])
+      q1 = create(:question, :answers => [a = create(:answer, :text => "different")])
+      q2 = create(:question, :answers => [b = create(:answer, :text => "strokes")])
+      q3 = create(:question, :answers => [c = create(:answer, :text => "folks")])
+      rs = create(:response_set, :responses => [r1 = create(:response, :question => q1, :answer => a), r3 = create(:response, :question => q3, :answer => c, :response_group => 1)])
 
       expect(helper.response_for(rs, nil)).to eq(nil)
       expect(helper.response_for(nil, q1)).to eq(nil)

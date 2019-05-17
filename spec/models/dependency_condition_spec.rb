@@ -90,9 +90,9 @@ describe DependencyCondition do
   end
 
   it "returns true for != with no responses" do
-    question = FactoryGirl.create(:question)
-    dependency_condition = FactoryGirl.create(:dependency_condition, :rule_key => "C", :question => question)
-    rs = FactoryGirl.create(:response_set)
+    question = create(:question)
+    dependency_condition = create(:dependency_condition, :rule_key => "C", :question => question)
+    rs = create(:response_set)
     expect(dependency_condition.to_hash(rs)).to eq({:C => false})
   end
 
@@ -108,16 +108,16 @@ describe DependencyCondition do
     # condition_A :q_HEIGHT_FT, "<", {:integer_value => "4"}
     # condition_B :q_HEIGHT_FT, ">", {:integer_value => "7"}
 
-    answer = FactoryGirl.create(:answer, :response_class => :integer)
+    answer = create(:answer, :response_class => :integer)
     @dependency_condition = DependencyCondition.new(
-      :dependency => FactoryGirl.create(:dependency),
+      :dependency => create(:dependency),
       :question => answer.question,
       :answer => answer,
       :operator => ">",
       :integer_value => 4,
       :rule_key => "A")
 
-    response = FactoryGirl.create(:response, :answer => answer, :question => answer.question)
+    response = create(:response, :answer => answer, :question => answer.question)
     response_set = response.response_set
     expect(response.integer_value).to eq(nil)
 
@@ -126,11 +126,11 @@ describe DependencyCondition do
 
   describe "evaluate '==' operator" do
     before(:each) do
-      @a = FactoryGirl.create(:answer, :response_class => "answer")
-      @b = FactoryGirl.create(:answer, :question => @a.question)
-      @r = FactoryGirl.create(:response, :question => @a.question, :answer => @a)
+      @a = create(:answer, :response_class => "answer")
+      @b = create(:answer, :question => @a.question)
+      @r = create(:response, :question => @a.question, :answer => @a)
       @rs = @r.response_set
-      @dc = FactoryGirl.create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "==", :rule_key => "D")
+      @dc = create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "==", :rule_key => "D")
       expect(@dc.as(:answer)).to eq(@r.as(:answer))
     end
 
@@ -179,11 +179,11 @@ describe DependencyCondition do
 
   describe "evaluate '!=' operator" do
     before(:each) do
-      @a = FactoryGirl.create(:answer)
-      @b = FactoryGirl.create(:answer, :question => @a.question)
-      @r = FactoryGirl.create(:response, :question => @a.question, :answer => @a)
+      @a = create(:answer)
+      @b = create(:answer, :question => @a.question)
+      @r = create(:response, :question => @a.question, :answer => @a)
       @rs = @r.response_set
-      @dc = FactoryGirl.create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "!=", :rule_key => "E")
+      @dc = create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "!=", :rule_key => "E")
       expect(@dc.as(:answer)).to eq(@r.as(:answer))
     end
 
@@ -232,11 +232,11 @@ describe DependencyCondition do
 
   describe "evaluate the '<' operator" do
     before(:each) do
-      @a = FactoryGirl.create(:answer)
-      @b = FactoryGirl.create(:answer, :question => @a.question)
-      @r = FactoryGirl.create(:response, :question => @a.question, :answer => @a)
+      @a = create(:answer)
+      @b = create(:answer, :question => @a.question)
+      @r = create(:response, :question => @a.question, :answer => @a)
       @rs = @r.response_set
-      @dc = FactoryGirl.create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "<", :rule_key => "F")
+      @dc = create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "<", :rule_key => "F")
       expect(@dc.as(:answer)).to eq(@r.as(:answer))
     end
 
@@ -261,11 +261,11 @@ describe DependencyCondition do
 
   describe "evaluate the '<=' operator" do
     before(:each) do
-      @a = FactoryGirl.create(:answer)
-      @b = FactoryGirl.create(:answer, :question => @a.question)
-      @r = FactoryGirl.create(:response, :question => @a.question, :answer => @a)
+      @a = create(:answer)
+      @b = create(:answer, :question => @a.question)
+      @r = create(:response, :question => @a.question, :answer => @a)
       @rs = @r.response_set
-      @dc = FactoryGirl.create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "<=", :rule_key => "G")
+      @dc = create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "<=", :rule_key => "G")
       expect(@dc.as(:answer)).to eq(@r.as(:answer))
     end
 
@@ -295,11 +295,11 @@ describe DependencyCondition do
 
   describe "evaluate the '>' operator" do
     before(:each) do
-      @a = FactoryGirl.create(:answer)
-      @b = FactoryGirl.create(:answer, :question => @a.question)
-      @r = FactoryGirl.create(:response, :question => @a.question, :answer => @a)
+      @a = create(:answer)
+      @b = create(:answer, :question => @a.question)
+      @r = create(:response, :question => @a.question, :answer => @a)
       @rs = @r.response_set
-      @dc = FactoryGirl.create(:dependency_condition, :question => @a.question, :answer => @a, :operator => ">", :rule_key => "H")
+      @dc = create(:dependency_condition, :question => @a.question, :answer => @a, :operator => ">", :rule_key => "H")
       expect(@dc.as(:answer)).to eq(@r.as(:answer))
     end
 
@@ -324,11 +324,11 @@ describe DependencyCondition do
 
   describe "evaluate the '>=' operator" do
     before(:each) do
-      @a = FactoryGirl.create(:answer)
-      @b = FactoryGirl.create(:answer, :question => @a.question)
-      @r = FactoryGirl.create(:response, :question => @a.question, :answer => @a)
+      @a = create(:answer)
+      @b = create(:answer, :question => @a.question)
+      @r = create(:response, :question => @a.question, :answer => @a)
       @rs = @r.response_set
-      @dc = FactoryGirl.create(:dependency_condition, :question => @a.question, :answer => @a, :operator => ">=", :rule_key => "I")
+      @dc = create(:dependency_condition, :question => @a.question, :answer => @a, :operator => ">=", :rule_key => "I")
       expect(@dc.as(:answer)).to eq(@r.as(:answer))
     end
 
@@ -357,20 +357,20 @@ describe DependencyCondition do
 
   describe "evaluating with response_class string" do
     it "should compare answer ids when the dependency condition string_value is nil" do
-      @a = FactoryGirl.create(:answer, :response_class => "string")
-      @b = FactoryGirl.create(:answer, :question => @a.question)
-      @r = FactoryGirl.create(:response, :question => @a.question, :answer => @a, :string_value => "")
+      @a = create(:answer, :response_class => "string")
+      @b = create(:answer, :question => @a.question)
+      @r = create(:response, :question => @a.question, :answer => @a, :string_value => "")
       @rs = @r.response_set
-      @dc = FactoryGirl.create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "==", :rule_key => "J")
+      @dc = create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "==", :rule_key => "J")
       expect(@dc.to_hash(@rs)).to eq({:J => true})
     end
 
     it "should compare strings when the dependency condition string_value is not nil, even if it is blank" do
-      @a = FactoryGirl.create(:answer, :response_class => "string")
-      @b = FactoryGirl.create(:answer, :question => @a.question)
-      @r = FactoryGirl.create(:response, :question => @a.question, :answer => @a, :string_value => "foo")
+      @a = create(:answer, :response_class => "string")
+      @b = create(:answer, :question => @a.question)
+      @r = create(:response, :question => @a.question, :answer => @a, :string_value => "foo")
       @rs = @r.response_set
-      @dc = FactoryGirl.create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "==", :rule_key => "K", :string_value => "foo")
+      @dc = create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "==", :rule_key => "K", :string_value => "foo")
       expect(@dc.to_hash(@rs)).to eq({:K => true})
 
       @r.update_attributes(:string_value => "")
@@ -381,22 +381,22 @@ describe DependencyCondition do
 
   describe "evaluate 'count' operator" do
     before(:each) do
-      @q = FactoryGirl.create(:question)
+      @q = create(:question)
       @dc = DependencyCondition.new(:operator => "count>2", :rule_key => "M", :question => @q)
       @as = []
       3.times do
-        @as << FactoryGirl.create(:answer, :question => @q, :response_class => "answer")
+        @as << create(:answer, :question => @q, :response_class => "answer")
       end
-      @rs = FactoryGirl.create(:response_set)
+      @rs = create(:response_set)
       @as.slice(0,2).each do |a|
-        FactoryGirl.create(:response, :question => @q, :answer => a, :response_set => @rs)
+        create(:response, :question => @q, :answer => a, :response_set => @rs)
       end
       @rs.save
     end
 
     it "with operator with >" do
       expect(@dc.to_hash(@rs)).to eq({:M => false})
-      FactoryGirl.create(:response, :question => @q, :answer => @as.last, :response_set => @rs)
+      create(:response, :question => @q, :answer => @as.last, :response_set => @rs)
       expect(@rs.reload.responses.count).to eq(3)
       expect(@dc.to_hash(@rs.reload)).to eq({:M => true})
     end

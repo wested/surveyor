@@ -81,6 +81,17 @@ RSpec.configure do |config|
   # retry_count                = ENV['RSPEC_RETRY_COUNT']
   # config.default_retry_count = retry_count.try(:to_i) || 1
   # puts "RSpec retry count is #{config.default_retry_count}"
+  #
+  # The different available types are documented in the features, such as in
+  # https://relishapp.com/rspec/rspec-rails/docs
+  config.infer_spec_type_from_file_location!
+
+  # Filter lines from Rails gems in backtraces.
+  config.filter_rails_from_backtrace!
+  # arbitrary gems may also be filtered via:
+  # config.filter_gems_from_backtrace("gem name")
+  # include factory_bot methods (create, build, etc) for convenience
+  config.include FactoryBot::Syntax::Methods
 
   ## Database Cleaner
   config.before :suite do
