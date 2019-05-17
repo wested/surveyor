@@ -26,10 +26,8 @@ Gem::Specification.new do |s|
   s.add_dependency('rabl')
 
   s.add_development_dependency('yard')
-  s.add_development_dependency('rake', '< 11.0')
   s.add_development_dependency('sqlite3', '~> 1.3.0')
   s.add_development_dependency('puma')
-  s.add_development_dependency('bundler')
   s.add_development_dependency('rspec-rails', '~> 3.0')
   s.add_development_dependency('rails-controller-testing')
   s.add_development_dependency('capybara', '~> 3.5.1')
