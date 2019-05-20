@@ -25,7 +25,11 @@ namespace :testbed do
     Tempfile.open('surveyor_Rakefile') do |f|
       f.write("application \"config.time_zone='Rome'\"\n")
       f.flush
+      sh "mkdir ../testbed"
+      sh "cd ../testbed"
       sh "bundle exec rails new testbed --skip-bundle -m #{f.path}" # don't run bundle install until the Gemfile modifications
+      sh "cd ../surveyor"
+      sh "mv ../testbed ."
     end
     chdir('testbed') do
       gem_file_contents = File.read('Gemfile')

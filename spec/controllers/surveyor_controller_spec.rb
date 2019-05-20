@@ -25,7 +25,7 @@ describe SurveyorController do
     end
     it "renders new" do
       do_get
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template('new')
     end
     it "assigns surveys_by_access_code" do
@@ -87,7 +87,7 @@ describe SurveyorController do
     end
     it "renders show" do
       do_get
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template('show')
     end
     it "finds ResponseSet with includes" do
@@ -121,7 +121,7 @@ describe SurveyorController do
     end
     it "renders edit" do
       do_get
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template('edit')
     end
     it "assigns survey and response set" do

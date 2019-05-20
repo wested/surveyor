@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency('rails', '~> 5.0.0')
+  s.add_dependency('rails', '~> 5.2')
   s.add_dependency('haml')
   s.add_dependency('sass')
   s.add_dependency('formtastic') # 2.1 requries actionpack 3.0
@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency('rabl')
 
   s.add_development_dependency('yard')
-  s.add_development_dependency('sqlite3', '~> 1.3.0')
+  s.add_development_dependency('sqlite3')
   s.add_development_dependency('puma')
   s.add_development_dependency('rspec-rails', '~> 3.0')
   s.add_development_dependency('rails-controller-testing')

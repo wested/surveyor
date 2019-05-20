@@ -27,5 +27,7 @@ module Testbed
     #config.active_record.raise_in_transactional_callbacks = true
 
     config.i18n.fallbacks = [I18n.default_locale]
+
+    Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
   end
 end

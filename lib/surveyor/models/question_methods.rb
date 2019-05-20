@@ -99,7 +99,7 @@ module Surveyor
       private
 
       def imaged(text)
-        self.display_type == "image" && !text.blank? ? ActionController::Base.helpers.image_tag(text) : text
+        self.display_type == "image" && !text.blank? ? ActionController::Base.helpers.image_tag(text, alt: File.basename(text, ".*").capitalize) : text
       end
 
     end

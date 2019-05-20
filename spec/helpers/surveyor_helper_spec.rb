@@ -6,12 +6,12 @@ describe SurveyorHelper do
       q1 = create(:question)
       q2 = create(:question, :display_type => "label")
       q3 = create(:question, :dependency => create(:dependency))
-      q4 = create(:question, :display_type => "image", :text => "something.jpg")
+      q4 = create(:question, :display_type => "image", :text => "rails.png")
       q5 = create(:question, :question_group => create(:question_group))
       expect(helper.q_text(q1)).to eq("<span class='qnum'>1) </span>#{q1.text}")
       expect(helper.q_text(q2)).to eq(q2.text)
       expect(helper.q_text(q3)).to eq(q3.text)
-      expect(helper.q_text(q4)).to match(/<img src="\/(images|assets)\/something\.jpg" alt="Something" \/>/)
+      expect(helper.q_text(q4)).to match(/<img .*src="\/(images|assets)\/rails-.*\.png".*\/>/)
       expect(helper.q_text(q5)).to eq(q5.text)
     end
   end
