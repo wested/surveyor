@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency('sass')
   s.add_dependency('formtastic') # 2.1 requries actionpack 3.0
   s.add_dependency('uuidtools', '~> 2.1')
-  s.add_dependency('mustache', '~> 0.99')
+  s.add_dependency('mustache', '~> 1.0')
   s.add_dependency('rabl')
 
   s.add_development_dependency('yard')
