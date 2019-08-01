@@ -139,6 +139,7 @@ module Surveyor
              (a = self.context[:answer_references][question_reference_idenitifer][correct_answer_reference]) &&
              a.save
           self.context[:question_references][question_reference_idenitifer].correct_answer_id = a.id
+          self.context[:question_references][question_reference_idenitifer].save!
         else
           self.context[:bad_references].push "q_#{question_reference_idenitifer}.correct => a_#{correct_answer_reference}"
         end
