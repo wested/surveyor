@@ -3,6 +3,7 @@ require 'rails/generators'
 
 module Surveyor
   class InstallGenerator < Rails::Generators::Base
+    include Rails::Generators::Migration
 
     source_root File.expand_path("../templates", __FILE__)
     desc "Generate surveyor README, migrations, assets and sample survey"
@@ -48,11 +49,8 @@ module Surveyor
         check_for_orphaned_migration_files
 
         # increment migration timestamps to prevent collisions. copied functionality from RAILS_GEM_PATH/lib/rails_generator/commands.rb
-        SURVEYOR_MIGRATIONS.each_with_index do |name, i|
-          unless (prev_migrations = check_for_existing_migrations(name)).empty?
-            prev_migration_timestamp = prev_migrations[0].match(/([0-9]+)_#{name}.rb$/)[1]
-          end
-          copy_file("db/migrate/#{name}.rb", "db/migrate/#{(prev_migration_timestamp || Time.now.utc.strftime("%Y%m%d%H%M%S").to_i + i).to_s}_#{name}.rb")
+        SURVEYOR_MIGRATIONS.each do |name|
+          copy_migration(name)
         end
       end
     end
@@ -92,6 +90,14 @@ module Surveyor
           orphans.size == 1 ? '' : 's',
           orphans.join(', ')
         ]
+      end
+    end
+
+    def copy_migration(filename)
+      if self.class.migration_exists?("db/migrate", "#{filename}")
+        say_status("skipped", "Migration #{filename}.rb already exists")
+      else
+        migration_template "migrations/#{filename}.rb", "db/migrate/#{filename}.rb"
       end
     end
   end
