@@ -71,11 +71,56 @@ module Surveyor
     end
 
     def update
-      dependencies = params[:r].try(:values) || []
-      question_ids_for_dependencies = dependencies.map{|v| v["question_id"]}.compact.uniq
+      question_ids_for_dependencies = (params[:r].try(:values) || []).map{|v| v["question_id"] }.compact.uniq
       saved = load_and_update_response_set_with_retries
 
-      return redirect_with_message(surveyor_finish, :notice, t('surveyor.completed_survey')) if saved && params[:finish]
+      if saved && params[:finish] && !@response_set.mandatory_questions_complete?
+        #did not complete mandatory fields
+        ids, remove, question_ids, flashmsg = {}, {}, [], []
+        flashmsg << "<p> #{t('surveyor.mandatory_error_msg')} </p>"
+
+        triggered_mandatory_missing = @response_set.triggered_mandatory_missing
+
+        survey_section = ''
+        question_number = {}
+        last_question_of_previous_section = 0
+        last_question_number = 0
+        @response_set.survey.sections.each do |ss|
+          index = 0
+          ss.questions.where('display_type!=?','label').each do |q|
+            if q.triggered?(@response_set)
+              question_number[q.id.to_s] = last_question_number = last_question_of_previous_section + index + 1
+              index = index + 1
+            end
+          end
+          last_question_of_previous_section = last_question_number
+        end
+
+        triggered_mandatory_missing.each_with_index do |m, i|
+          if m.survey_section != survey_section
+            flashmsg << "</ul>" if i > 0
+
+            survey_section = m.survey_section
+            flashmsg << "<h4> #{m.survey_section.title}</h4> <ul>"
+          end
+
+          flashmsg << "<li> #{m.text} </li>"
+        end
+        respond_to do |format|
+          format.js do
+
+            render :json=>{"flashmsg"=>flashmsg}
+          end
+          format.html do
+            flash[:notice] = flashmsg.join('')
+            redirect_to surveyor.edit_my_survey_path(:anchor => anchor_from(params[:section]), :section => section_id_from(params))
+          end
+        end
+        return
+      elsif saved && params[:finish]
+        return redirect_with_message(surveyor_finish, :notice, t('surveyor.completed_survey'))
+      end
+
 
       respond_to do |format|
         format.html do
@@ -90,7 +135,8 @@ module Surveyor
           if @response_set
             render :json => @response_set.reload.all_dependencies(question_ids_for_dependencies)
           else
-            render plain: "No response set #{params[:response_set_code]}", :status => 404
+            render plain: "No response set #{params[:response_set_code]}",
+                   :status => 404
           end
         end
       end

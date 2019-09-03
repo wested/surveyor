@@ -18,3 +18,4 @@ en:
     select_one: "Select one ..."
     sections: "Sections"
     language: "Language"
+    mandatory_error_msg: "You must complete all required fields before submitting the survey.  Please fill in the following:"

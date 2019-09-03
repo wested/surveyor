@@ -79,15 +79,31 @@ module Surveyor
       def correct?
         responses.all?(&:correct?)
       end
+
       def correctness_hash
         { :questions => Survey.where(id: self.survey_id).includes(sections: :questions).first.sections.map(&:questions).flatten.compact.size,
           :responses => responses.compact.size,
           :correct => responses.find_all(&:correct?).compact.size
         }
       end
+
       def mandatory_questions_complete?
         progress_hash[:triggered_mandatory] == progress_hash[:triggered_mandatory_completed]
       end
+
+      #determine whether a mandatory question is missing a response.  Only applicable if the question is not dependent on other questions,
+      #or if it is dependent, but has been triggered for inclusion by a previous answer.
+      def triggered_mandatory_missing
+        qs = survey.sections.map(&:questions).flatten
+        #ds = Dependency.all(:include => :dependency_conditions, :conditions => {:dependency_conditions => {:question_id => qs.map(&:id) || responses.map(&:question_id)}})
+        ds = Dependency.includes(:dependency_conditions).where(:question_id => qs.map(&:id) || responses.map(&:question_id) )
+        triggered = qs - ds.select{|d| !d.is_met?(self)}.map(&:question)
+        triggered_mandatory = triggered.select{|q| q.mandatory?}
+        triggered_mandatory_completed = triggered.select{|q| q.mandatory? and is_answered?(q)}
+        triggered_mandatory_missing = triggered_mandatory - triggered_mandatory_completed
+        return triggered_mandatory_missing
+      end
+
       def progress_hash
         qs = Survey.where(id: self.survey_id).includes(sections: :questions).first.sections.map(&:questions).flatten
         ds = dependencies(qs.map(&:id))
