@@ -69,7 +69,7 @@ describe Surveyor::Parser do
                         {text: "interested", display_order: 2}]
     end
   end
-  context "depdencies and validations" do
+  context "dependencies and validations" do
     include_context "lifestyle"
     it "parses" do
       expect(Survey.count).to eq(1)
@@ -233,16 +233,18 @@ describe Surveyor::Parser do
       expect(SurveySection.count).to eq(2)
       expect(Question.count).to eq(3)
       expect(Answer.count).to eq(11)
+
       surveys =   [{title: "Numbers", display_order: 0}]
       sections =  [{title: "Addition", reference_identifier: nil, display_order: 0},
                    {title: "Literature", reference_identifier: nil, display_order: 1}]
       questions = [{reference_identifier: "1", text: "What is one plus one?", pick: "one", display_type: "default", display_order: 0},
                    {reference_identifier: "2", text: "What is five plus one?", pick: "one", display_type: "default", display_order: 1},
                    {reference_identifier: "the_answer", text: "What is the 'Answer to the Ultimate Question of Life, The Universe, and Everything'", pick: "one", display_type: "default", display_order: 0}]
-      answers_1 = [{reference_identifier: "1", text: "1", response_class: "answer", display_order: 0},
-                   {reference_identifier: "2", text: "2", response_class: "answer", display_order: 1},
-                   {reference_identifier: "3", text: "3", response_class: "answer", display_order: 2},
-                   {reference_identifier: "4", text: "4", response_class: "answer", display_order: 3}]
+      answers_1 = [{reference_identifier: "1", text: "1", response_class: "answer", display_order: 0, weight: 4},
+                   {reference_identifier: "2", text: "2", response_class: "answer", display_order: 1, weight: 3},
+                   {reference_identifier: "3", text: "3", response_class: "answer", display_order: 2, weight: 2},
+                   {reference_identifier: "4_out", text: "4", response_class: "answer", display_order: 3, weight: 1}]
+
       answers_2 = [{reference_identifier: "5", text: "five", response_class: "answer", display_order: 0},
                    {reference_identifier: "6", text: "six", response_class: "answer", display_order: 1},
                    {reference_identifier: "7", text: "seven", response_class: "answer", display_order: 2},
@@ -250,10 +252,18 @@ describe Surveyor::Parser do
       correct_answers = [{question_reference_identifier: "1", correct_answer_text: "2"},
                          {question_reference_identifier: "2", correct_answer_text: "six"},
                          {question_reference_identifier: "the_answer", correct_answer_text: "42"}]
+
       surveys.each{|attrs| attrs.each{|k,v| expect(Survey.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
       sections.each{|attrs| attrs.each{|k,v| expect(SurveySection.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
       questions.each{|attrs| attrs.each{|k,v| expect(Question.where(reference_identifier: attrs[:reference_identifier]).first[k]).to eq(v)} }
-      answers_1.each{|attrs| attrs.each{|k,v| expect(Question.where(reference_identifier: "1").first.answers.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
+
+      answers_1.each do |attrs|
+        answer = Question.where(reference_identifier: "1").first.answers.where(display_order: attrs[:display_order]).first
+        attrs.each do|k,v|
+          expect(answer[k]).to eq(v)
+        end
+      end
+
       answers_2.each{|attrs| attrs.each{|k,v| expect(Question.where(reference_identifier: "2").first.answers.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
       correct_answers.each{|attrs|
         expect(Question.where(reference_identifier: attrs[:question_reference_identifier]).first.correct_answer.text).to eq(attrs[:correct_answer_text])
