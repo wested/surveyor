@@ -112,8 +112,9 @@ module Surveyor
             render :json=>{"flashmsg"=>flashmsg}
           end
           format.html do
-            flash[:notice] = flashmsg.join('')
-            redirect_to surveyor.edit_my_survey_path(:anchor => anchor_from(params[:section]), :section => section_id_from(params))
+            flash.now[:notice] = flashmsg.join('')
+            edit
+            render :edit
           end
         end
         return
@@ -162,7 +163,7 @@ module Surveyor
           if params[:r]
             @response_set.update_from_ui_hash(params[:r])
           end
-          if params[:finish]
+          if params[:finish] && @response_set.mandatory_questions_complete?
             @response_set.complete!
             saved &= @response_set.save
           end
