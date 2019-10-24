@@ -108,6 +108,11 @@ module Surveyor
         @rc ||= 0
         (increment ? @rc += 1 : @rc).to_s
       end
+
+      # Answers
+      def choice_answer_wrapper(text)
+        "<span> #{text} </span>".html_safe
+      end
     end
   end
 end
