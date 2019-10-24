@@ -46,13 +46,29 @@ module Surveyor
       end
 
       # Questions
+      def question_group_text(question_number, text)
+        if question_number.present?
+          question_number_with_text(question_number, text)
+        else
+          text
+        end
+      end
+
       def q_text(q, context=nil, locale=nil)
-        "#{next_question_number(q) unless (q.dependent? or q.display_type == "label" or q.display_type == "image" or q.part_of_group?)}#{q.text_for(nil, context, locale)}"
+        if q.dependent? or q.display_type == "label" or q.display_type == "image" or q.part_of_group?
+          q.text_for(nil, context, locale)
+        else
+          question_number_with_text(next_question_number(q), q.text_for(nil, context, locale))
+        end
       end
 
       def next_question_number(question)
         @n ||= 0
         "<span class='qnum'>#{@n += 1}) </span>"
+      end
+
+      def question_number_with_text(question_number, text)
+        "<p class='question'>#{question_number}#{text}</p>"
       end
 
       # Responses

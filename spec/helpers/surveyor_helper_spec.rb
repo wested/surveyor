@@ -8,7 +8,7 @@ describe SurveyorHelper do
       q3 = create(:question, :dependency => create(:dependency))
       q4 = create(:question, :display_type => "image", :text => "rails.png")
       q5 = create(:question, :question_group => create(:question_group))
-      expect(helper.q_text(q1)).to eq("<span class='qnum'>1) </span>#{q1.text}")
+      expect(helper.q_text(q1)).to eq("<p class='question'><span class='qnum'>1) </span>#{q1.text}</p>")
       expect(helper.q_text(q2)).to eq(q2.text)
       expect(helper.q_text(q3)).to eq(q3.text)
       expect(helper.q_text(q4)).to match(/<img .*src="\/(images|assets)\/rails-.*\.png".*\/>/)
@@ -22,7 +22,7 @@ describe SurveyorHelper do
     it "substitues values into Question#text" do
       q1 = create(:question, :text => "You are in {{site}}")
       label = create(:question, :display_type => "label", :text => "Testing {{somethingElse}}")
-      expect(helper.q_text(q1, mustache_context)).to eq("<span class='qnum'>1) </span>You are in Northwestern")
+      expect(helper.q_text(q1, mustache_context)).to eq("<p class='question'><span class='qnum'>1) </span>You are in Northwestern</p>")
       expect(helper.q_text(label, mustache_context)).to eq("Testing something new")
     end
   end
