@@ -1,3 +1,5 @@
+-# ******* DO NOT EDIT HERE!!!  Must make edits in Surveyor-GUI override ****************
+
 - renderer = g.renderer
 - unless g.display_type == "hidden"
   = f.inputs question_group_text(next_question_number(g), g.text_for(@render_context, I18n.locale)), :id => "g_#{g.id}", :class => "g_#{renderer} #{g.css_class(@response_set)}" do
