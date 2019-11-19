@@ -68,7 +68,7 @@ module Surveyor
       end
 
       def question_number_with_text(question_number, text)
-        "<p class='question'>#{question_number}#{text}</p>"
+        "<div class='question'>#{question_number}#{text}</div>"
       end
 
       # Responses
