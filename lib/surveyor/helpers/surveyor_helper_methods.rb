@@ -58,7 +58,9 @@ module Surveyor
         if q.dependent? or q.display_type == "label" or q.display_type == "image" or q.part_of_group?
           q.text_for(nil, context, locale)
         else
-          question_number_with_text(next_question_number(q), q.text_for(nil, context, locale))
+          question_text = q.text_for(nil, context, locale)
+          question_text << "<em>*</em>" if q.is_mandatory
+          question_number_with_text(next_question_number(q), question_text)
         end
       end
 
