@@ -4,10 +4,10 @@ class SurveyorRadioInput < Formtastic::Inputs::RadioInput
     super
   end
   def choice_html(choice)
-    output = "" 
+    output = ""
     output << template.content_tag(:label,
-      builder.radio_button(input_name, choice_value(choice), input_html_options.merge(choice_html_options(choice)).merge(:required => false)) << 
-      choice_label(choice),
+      builder.radio_button(input_name, choice_value(choice), input_html_options.merge(choice_html_options(choice)).merge(:required => false)) <<
+      "<span class='answer-option'>#{choice_label(choice)}</span>".html_safe,
       label_html_options.merge(:for => choice_input_dom_id(choice), :class => nil)
     )
     output << builder.text_field(:response_other, input_html_options_with(choice, :response_other)) if options[:response_class] == "other_and_string"
