@@ -8,7 +8,7 @@ module Surveyor
       end
       # Helper for displaying warning/notice/error flash messages
       def flash_messages(types)
-        types.map{|type| content_tag(:div, "#{flash[type]}".html_safe, :class => type.to_s)}.join.html_safe
+        types.map{|type| content_tag(:div, "#{flash[type]}".html_safe, :class => "alert alert-#{type.to_s}")}.join.html_safe
       end
       # Section: dependencies, menu, previous and next
       def dependency_explanation_helper(question,response_set)
@@ -58,9 +58,9 @@ module Surveyor
         if q.dependent? or q.display_type == "label" or q.display_type == "image" or q.part_of_group?
           q.text_for(nil, context, locale)
         else
-          question_text = q.text_for(nil, context, locale)
-          question_text << "<em>*</em>" if q.is_mandatory
-          question_number_with_text(next_question_number(q), question_text)
+          question_number = next_question_number(q)
+          question_number = "<span class='required-asterisk'>*</span>" + question_number if q.is_mandatory
+          question_number_with_text(question_number, q.text_for(nil, context, locale))
         end
       end
 

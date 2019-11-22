@@ -12,6 +12,7 @@ describe "saving with ajax", js: true do
 
     click_button "Click here to finish"
 
+    # page.save_screenshot(File.join(Rails.root, "tmp", "surveyor.png"), :full => true)
     within ".surveyor_flash" do
       expect(page).to have_content "You must complete all required fields before submitting the survey."
       expect(page).to have_content "Addition"

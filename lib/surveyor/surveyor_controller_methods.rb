@@ -112,7 +112,7 @@ module Surveyor
             render :json=>{"flashmsg"=>flashmsg}
           end
           format.html do
-            flash.now[:notice] = flashmsg.join('')
+            flash.now[:danger] = flashmsg.join('')
             edit
             render :edit
           end
