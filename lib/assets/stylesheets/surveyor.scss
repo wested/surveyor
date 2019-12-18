@@ -1,0 +1,667 @@
+/* --------------------------------------------------------------------
+
+Surveyor (includes original styles plus WestEd updates)
+
+-------------------------------------------------------------------- */
+
+/* variables */
+$surveyor_flash_background_color: #FFF1A8;
+$surveyor_dependent_color: #FFFFDF;
+
+$background-color: #ccc;
+$border: #ddd;
+$shade: #ccc;
+$primary-text: #000000;
+$primary-link: #3380FF;
+
+/* typography */
+// font-size: 14px;
+// line-height: 18px;
+// font-weight: 400;
+// color: $primary-text;
+
+
+/* Surveyor / Base
+-------------------------------------------------------------------- */
+#surveyor {
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  color: $primary-text;
+  margin: 0;
+  padding: 0;
+
+  /* links */
+  a {
+    color: $primary-link;
+
+    &:hover {
+      opacity: .75;
+    }
+
+  }
+
+  /* buttons */
+  .btn,
+  input[type="submit"] {
+    border: none;
+    background-color: $primary-link;
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: 400;
+    padding: 6px 12px;
+
+    &:hover {
+      opacity: .75;
+    }
+
+  }
+
+  /* typography */
+  h1, .survey_title {
+    display: block;
+    font-size: 30px;
+    line-height: 40px;
+    font-weight: 400;
+    color: $primary-text;
+    margin: 0 0 20px 0;
+    padding: 0;
+  }
+
+  h2, .title {
+    display: block;
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 400;
+    color: $primary-text;
+    margin: 0 0 15px 0;
+    padding: 0;
+  }
+
+  h3 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    color: $primary-text;
+    margin: 0 0 15px 0;
+    padding: 0;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    color: $primary-text;
+    margin: 0 0 15px 0;
+    padding: 0;
+  }
+
+  /* required questions */
+
+  fieldset .required-asterisk {
+    line-height: 1.25;
+    display: inline-block;
+    position: absolute;
+    right: 98%;
+    padding-right: 5px;
+    color: red;
+    margin-top: 3px;
+  }
+
+  /* trying to target survey questions derived from the WYSIWYG */
+  .question,
+  fieldset.q_default .question > p:first-of-type,
+  fieldset.q_default .question span.qnum,
+  fieldset.g_inline > legend span,
+  fieldset.g_grid > legend p:first-of-type,
+  fieldset.g_grid > legend span:first-of-type,
+  fieldset.g_repeater > legend span:first-of-type {
+    // border: 1px solid red !important; /* testing */
+    display: inline;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 400;
+    color: $primary-text;
+    margin: 0 0 12px 0;
+    padding: 0;
+  }
+
+  /* trying to target space after question if followed by more WYSIWYG content */
+  .question p:nth-child(3),
+  .g_inline span:nth-child(3),
+  .g_grid p:nth-child(3),
+  .g_grid span:nth-child(3),
+  .g_repeater span:nth-child(3) {
+    margin-top: 20px;
+  }
+
+  /* trying to target WYSIWYG content only */
+  legend {
+
+    ul {
+      margin: 0 0 15px 25px;
+      padding: 0;
+
+      li {
+        margin: 0 0 12px 0;
+        padding: 0;
+      }
+
+    }
+
+    ol {
+      margin: 0 0 15px 20px;
+      padding: 0;
+
+      li {
+        margin: 0 0 12px 0;
+        padding: 0;
+      }
+
+    }
+
+  }
+
+  li,
+  legend,
+  label,
+  input {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+  }
+
+  /* Flash Message */
+  .surveyor_flash {
+    width: 100%;
+    background-color: transparent;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+
+    .notice {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    p, span {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+    }
+
+    img {
+      display: none;
+    }
+
+    .alert {
+      ul li p {
+        margin-left: 15px;
+      }
+    }
+
+  }
+
+  /* side menu */
+  .surveyor_menu {
+    border: 1px solid $border;
+    margin: 0;
+    padding: 0;
+
+    .name {
+      display: block;
+      background-color: #666;
+      color: #fff;
+      padding: 6px 12px;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+
+      li {
+        border-bottom: 1px solid $border;
+        margin: 0;
+        padding: 6px 12px;
+
+        &:last-child {
+          border: none;
+        }
+
+        &.active {
+          background-color: #ccc;
+        }
+
+        input, button {
+          border: none;
+          background-color: transparent;
+          margin: 0;
+          padding: 0;
+        }
+
+      }
+
+    }
+
+  }
+
+  .surveyor_language_selection {
+    display: none;
+  }
+
+  /* bottom nav */
+  .survey-nav {
+
+    .previous_section {
+      float: left;
+    }
+
+    .next_section {
+      float: right;
+    }
+
+    input {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      color: #fff;
+      border-radius: 5px;
+      padding: 6px 12px;
+    }
+
+  }
+
+}
+
+
+/* Surveyor / Form Elements
+-------------------------------------------------------------------- */
+#surveyor {
+
+  form {
+    margin: 0 0 20px 0;
+    padding: 0;
+  }
+
+  legend,
+  label,
+  input,
+  input[type="text"],
+  textarea {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+  }
+
+  textarea {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    padding: 12px;
+  }
+
+  legend {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  fieldset {
+    border: none;
+    margin: 12px 0;
+    padding: 12px 0;
+
+    fieldset {
+      margin: 0;
+      padding: 0;
+    }
+
+  }
+
+  ol {
+    margin: 0;
+    padding:0;
+
+    li {
+      margin: 0;
+      padding:0;
+    }
+
+    /* added to create space when these are stacked */
+    li.stringish {
+      margin-bottom: 10px;
+    }
+
+  }
+
+  ol.choices-group {
+    margin: 0;
+    padding: 0 0 0 5px;
+
+    li {
+      margin: 0 0 12px 0;
+      padding: 0;
+    }
+
+    input {
+      margin: 0 8px 0 0;
+      padding: 0;
+    }
+
+  }
+
+  input[type="text"],
+  select {
+    width: 50%;
+    border: 1px solid $border;
+    margin: 0;
+    padding: 6px;
+  }
+
+  input[type="text"].error {
+    border: 1px solid red;
+  }
+
+  label {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    color: $primary-text;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* space between label and input when inline */
+  label + input[type="text"] {
+    margin-left: 10px;
+  }
+
+  // question groups
+  fieldset.g_inline fieldset, fieldset.g_inline ol li {
+    display: inline;
+  }
+
+  fieldset.g_inline {
+
+    ol {
+
+      li {
+        display: block;
+      }
+
+    }
+
+  }
+
+  fieldset.g_grid {
+
+    table {
+      border-collapse: collapse;
+    }
+
+    li.surveyor_radio .answer-option,
+    li.surveyor_check_boxes .answer-option {
+      display: none;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 6px 12px;
+    }
+
+    tr.q_grid th {
+      text-align: left;
+      color: #000;
+    }
+
+    ol.choices-group li input {
+      margin: 0;
+    }
+
+  }
+
+  fieldset.g_repeater {
+
+    ol fieldset {
+      margin: 0 0 20px 0;
+      padding: 0;
+    }
+
+    li.input legend {
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    input.integer {
+      width: 40px;
+    }
+
+    input[type="submit"].add_row {
+    }
+
+    input[type="submit"] {
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      margin: 15px 0 0 0;
+
+      &:hover {
+        opacity: .75;
+      }
+
+    }
+
+  }
+
+  // question groups and questions
+  .survey_section>fieldset>ol {
+  }
+
+  fieldset {
+
+    ol {
+
+      fieldset {
+      }
+
+      li {
+
+        label, input {
+        }
+
+        p.inline-hints {
+          display: inline;
+          margin: 0;
+          padding: 0;
+        }
+
+      }
+
+      li.inline {
+        display: inline;
+      }
+
+      li.datetime,
+      li.time {
+
+        input,
+        fieldset,
+        fieldset ol li {
+          display: inline;
+        }
+
+      }
+
+    }
+
+    &.q_inline ol li,
+    &.q_inline_inline ol li {
+      display: inline;
+    }
+
+  }
+
+  fieldset.q_hidden,
+  fieldset.g_hidden,
+  fieldset.g_grid tr.q_hidden {
+    display: none !important;
+  }
+
+  fieldset.q_dependent,
+  fieldset.g_dependent {
+
+    legend {
+      background-color: $surveyor_dependent_color;
+      padding: 12px;
+    }
+
+  }
+
+  fieldset.q_dropdown,
+  fieldset.q_inline_dropdown,
+  fieldset.q_default_dropdown,
+  fieldset.q_slider,
+  fieldset.q_repeater_dropdown {
+
+    label {
+      display: none;
+    }
+
+  }
+
+  /* slider */
+  fieldset.q_slider {
+    margin-bottom: 40px;
+
+    ol {
+      margin: 5px 0 0 0;
+      padding: 0 40px;
+
+      li {
+        margin: 0;
+        padding: 0;
+      }
+
+    }
+
+    li.select {
+      width: 100%;
+    }
+
+    .ui-slider {
+      height: 20px;
+      margin: 0;
+      padding: 0;
+
+      .ui-slider-label-show {
+        position: relative;
+        display: inline;
+      }
+
+      a.ui-slider-handle {
+        top: 0;
+        background-color: #999;
+
+        &:hover {
+          opacity: 1;
+        }
+
+      }
+
+      .ui-slider-scale {
+        top: 12px;
+
+        li {
+          padding-top: 5px;
+
+          .ui-slider-label {
+            white-space: nowrap;
+          }
+
+        }
+
+        .ui-slider-tic {
+          height: 20px;
+        }
+
+      }
+
+      .ui-slider-tooltip {
+        background: #fff;
+      }
+
+    }
+
+  }
+
+  .star-container .choices-group .choice:not(:first-child) {
+    display: none;
+  }
+
+  /* image next to input */
+  input.image-answer {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  img.image-answer {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* seems required to try and match spacing of default checkbox/radio fieldsets */
+  fieldset.q_inline {
+
+    ol.choices-group {
+      margin: 0 0 12px 0;
+      padding: 0;
+    }
+
+  }
+
+  /* to prevent hidden label text from creating space and thus not centering */
+  fieldset.g_grid {
+
+    li.surveyor_check_boxes,
+    li.choice {
+
+      // label {
+      //   width: 15px;
+      // }
+
+    }
+
+  }
+
+  /* striped tables */
+  .table-striped>tbody>tr:nth-child(odd)>td,
+  .table-striped>tbody>tr:nth-child(odd)>th {
+    background-color: #e3e3e3;
+  }
+
+}
+
+
+/* elements that sit outside of Surveyor
+-------------------------------------------------------------------- */
+
+/* datepicker */
+#ui-datepicker-div {
+  z-index: 999 !important;
+}
+.ui-datepicker {
+  background-color: #fff;
+
+  a.ui-slider-handle {
+    background-color: #999;
+
+    &:hover {
+      opacity: 1;
+    }
+
+  }
+
+}
