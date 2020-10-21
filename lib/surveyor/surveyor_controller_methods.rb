@@ -6,6 +6,8 @@ module Surveyor
   module SurveyorControllerMethods
     extend ActiveSupport::Concern
     included do
+      include SurveyorHelper
+
       before_action :get_current_user, :only => [:new, :create]
       before_action :determine_if_javascript_is_enabled, :only => [:create, :update]
       before_action :set_response_set_and_render_context, :only => [:edit, :show]
@@ -101,10 +103,10 @@ module Surveyor
             flashmsg << "</ul>" if i > 0
 
             survey_section = m.survey_section
-            flashmsg << "<h4> #{m.survey_section.title}</h4> <ul>"
+            flashmsg << "<div class='survey_section'><h4 class='title'> #{m.survey_section.title}</h4></div> <ul>"
           end
 
-          flashmsg << "<li> #{m.text} </li>"
+          flashmsg << mandatory_question_error(params[:response_set_code], m)
         end
         respond_to do |format|
           format.js do

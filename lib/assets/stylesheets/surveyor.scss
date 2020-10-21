@@ -193,14 +193,14 @@ $primary-link: #3380FF;
       font-weight: 400;
     }
 
-    img {
-      display: none;
-    }
-
     .alert {
       ul li p {
         margin-left: 15px;
       }
+    }
+
+    .question-error .link-to {
+      margin-left: 5px;
     }
 
   }
