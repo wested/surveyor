@@ -15,7 +15,7 @@ module Surveyor
       def mandatory_question_error(response_set_code, question)
         question_text = Loofah.fragment(question.text).to_text
 
-        "<li class='question-error'> <a href='#{surveyor.edit_my_survey_path(response_set_code, section: question.survey_section_id)}'> #{question_text.truncate(100)}</a> </li>"
+        "<li class='question-error'> <a href='#{surveyor.edit_my_survey_path(response_set_code, section: question.survey_section_id)}#q_#{question.id}'> #{question_text.truncate(100)}</a> </li>"
       end
 
       # Section: dependencies, menu, previous and next
