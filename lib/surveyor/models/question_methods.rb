@@ -65,6 +65,22 @@ module Surveyor
         self.question_group.nil?
       end
 
+      def multiple_choice_answer?
+        self.pick == "any" || self.pick == "one"
+      end
+
+      def string_answer?
+        self.pick == "none" && self.answers.first.response_class == "string"
+      end
+
+      def text_answer?
+        self.pick == "none" && self.answers.first.response_class == "text"
+      end
+
+      def number_answer
+        self.pick == "none" && self.answers.first.response_class == "float"
+      end
+
       def text_for(position = nil, context = nil, locale = nil)
         return "" if display_type == "hidden_label"
         imaged(split(in_context(translation(locale)[:text], context), position))
