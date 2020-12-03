@@ -22,7 +22,7 @@ module Surveyor
 
         # Derived attributes
         before_save :generate_access_code
-        before_save :increment_version
+        before_create :increment_version
       end
 
       module ClassMethods
