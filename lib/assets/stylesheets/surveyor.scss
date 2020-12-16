@@ -353,6 +353,27 @@ $primary-link: #3380FF;
       padding: 0;
     }
 
+    /* allows the input to be positioned flush left of the label, rather than the label wrapping under the input */
+    li.choice {
+   
+      label { 
+        position: relative;
+      
+        input {
+          position: absolute;
+          top: 2px;
+          left: 0;
+        }
+      
+        span {
+          display: block;
+          padding-left: 20px;
+        }
+      
+      }
+    
+    }
+
   }
 
   input[type="text"],
