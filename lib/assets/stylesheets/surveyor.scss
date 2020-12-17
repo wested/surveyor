@@ -375,6 +375,20 @@ $primary-link: #3380FF;
     }
 
   }
+  
+  /* remove above for table instances */
+  table li.choice {
+    
+    label {
+      
+      input,
+      span {
+        position: revert;
+      }
+      
+    }
+    
+  }
 
   input[type="text"],
   select {
