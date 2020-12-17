@@ -676,6 +676,11 @@ $primary-link: #3380FF;
     background-color: #e3e3e3;
   }
 
+  /* border around question images */
+  fieldset img {
+    border: 1px solid #ccc;
+  }
+
 }
 
 
