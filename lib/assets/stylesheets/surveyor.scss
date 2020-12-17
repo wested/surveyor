@@ -374,22 +374,22 @@ $primary-link: #3380FF;
     
     }
 
-  }
-  
-  /* remove above for table instances */
-  table li.choice {
-    
-    label {
+    /* remove above for table instances */
+    table li.choice {
       
-      input,
-      span {
-        position: revert;
+      label {
+        
+        input,
+        span {
+          position: revert;
+        }
+        
       }
       
     }
-    
-  }
 
+  }
+  
   input[type="text"],
   select {
     width: 50%;
