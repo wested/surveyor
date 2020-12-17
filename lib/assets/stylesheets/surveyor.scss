@@ -680,6 +680,11 @@ $primary-link: #3380FF;
   fieldset img {
     border: 1px solid #ccc;
   }
+  
+  /* team decided to hide question numbers */
+  fieldset span.qnum {
+    display: none !important;
+  }
 
 }
 
