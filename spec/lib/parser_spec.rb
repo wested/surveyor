@@ -16,10 +16,10 @@ describe Surveyor::Parser do
       surveys =   [{title: "Favorites", display_order: 0}]
       sections =  [{title: "Colors", reference_identifier: "colors", display_order: 0},
                    {title: "Numbers", reference_identifier: "numbers", display_order: 1}]
-      questions = [{reference_identifier: nil, text: "These questions are examples of the basic supported input types", pick: "none", display_type: "label", display_order: 0},
-                   {reference_identifier: "1", text: "What is your favorite color?", pick: "one", display_type: "default", display_order: 1},
-                   {reference_identifier: "2b", text: "Choose the colors you don't like", pick: "any", display_type: "default", display_order: 2},
-                   {reference_identifier: "fire_engine", text: "What is the best color for a fire engine?",display_type: "default", display_order: 3}]
+      questions = [{reference_identifier: nil, text: "These questions are examples of the basic supported input types", pick: "none", display_type: "label", display_order: 1},
+                   {reference_identifier: "1", text: "What is your favorite color?", pick: "one", display_type: "default", display_order: 2},
+                   {reference_identifier: "2b", text: "Choose the colors you don't like", pick: "any", display_type: "default", display_order: 3},
+                   {reference_identifier: "fire_engine", text: "What is the best color for a fire engine?",display_type: "default", display_order: 4}]
       answers_1 = [{reference_identifier: "r", data_export_identifier: "1", text: "red", response_class: "answer", display_order: 0},
                    {reference_identifier: "b", data_export_identifier: "2", text: "blue", response_class: "answer", display_order: 1},
                    {reference_identifier: "g", data_export_identifier: "3", text: "green", response_class: "answer", display_order: 2},
@@ -31,8 +31,8 @@ describe Surveyor::Parser do
       surveys.each{|attrs| attrs.each{|k,v| expect(Survey.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
       sections.each{|attrs| attrs.each{|k,v| expect(SurveySection.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
       questions.each{|attrs| attrs.each{|k,v| expect(Question.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
-      answers_1.each{|attrs| attrs.each{|k,v| expect(Question.where(display_order: 1).first.answers.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
-      answers_2.each{|attrs| attrs.each{|k,v| expect(Question.where(display_order: 2).first.answers.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
+      answers_1.each{|attrs| attrs.each{|k,v| expect(Question.where(display_order: 2).first.answers.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
+      answers_2.each{|attrs| attrs.each{|k,v| expect(Question.where(display_order: 3).first.answers.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
     end
   end
   context "complex questions" do
@@ -237,9 +237,9 @@ describe Surveyor::Parser do
       surveys =   [{title: "Numbers", display_order: 0}]
       sections =  [{title: "Addition", reference_identifier: nil, display_order: 0},
                    {title: "Literature", reference_identifier: nil, display_order: 1}]
-      questions = [{reference_identifier: "1", text: "What is one plus one?", pick: "one", display_type: "default", display_order: 0},
-                   {reference_identifier: "2", text: "What is five plus one?", pick: "one", display_type: "default", display_order: 1},
-                   {reference_identifier: "the_answer", text: "What is the 'Answer to the Ultimate Question of Life, The Universe, and Everything'", pick: "one", display_type: "default", display_order: 0}]
+      questions = [{reference_identifier: "1", text: "What is one plus one?", pick: "one", display_type: "default", display_order: 1},
+                   {reference_identifier: "2", text: "What is five plus one?", pick: "one", display_type: "default", display_order: 2},
+                   {reference_identifier: "the_answer", text: "What is the 'Answer to the Ultimate Question of Life, The Universe, and Everything'", pick: "one", display_type: "default", display_order: 1}]
       answers_1 = [{reference_identifier: "1", text: "1", response_class: "answer", display_order: 0, weight: 4},
                    {reference_identifier: "2", text: "2", response_class: "answer", display_order: 1, weight: 3},
                    {reference_identifier: "3", text: "3", response_class: "answer", display_order: 2, weight: 2},
@@ -255,7 +255,9 @@ describe Surveyor::Parser do
 
       surveys.each{|attrs| attrs.each{|k,v| expect(Survey.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
       sections.each{|attrs| attrs.each{|k,v| expect(SurveySection.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
-      questions.each{|attrs| attrs.each{|k,v| expect(Question.where(reference_identifier: attrs[:reference_identifier]).first[k]).to eq(v)} }
+      questions.each{|attrs| attrs.each{|k,v|
+        expect(Question.where(reference_identifier: attrs[:reference_identifier]).first[k]).to eq(v)
+      } }
 
       answers_1.each do |attrs|
         answer = Question.where(reference_identifier: "1").first.answers.where(display_order: attrs[:display_order]).first
@@ -292,9 +294,9 @@ describe Surveyor::Parser do
       expect(Survey.count).to eq(1)
       expect(SurveySection.count).to eq(1)
       expect(Question.count).to eq(3)
-      questions = [{display_order: 0, text: "Did you take out the trash", is_mandatory: true},
-                   {display_order: 1, text: "Did you do the laundry", is_mandatory: true},
-                   {display_order: 2, text: "Optional comments", is_mandatory: false}]
+      questions = [{display_order: 1, text: "Did you take out the trash", is_mandatory: true},
+                   {display_order: 2, text: "Did you do the laundry", is_mandatory: true},
+                   {display_order: 3, text: "Optional comments", is_mandatory: false}]
       questions.each{|attrs| attrs.each{|k,v| expect(Question.where(display_order: attrs[:display_order]).first[k]).to eq(v)} }
     end
   end

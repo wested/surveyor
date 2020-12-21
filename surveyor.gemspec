@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency('uuidtools', '~> 2.1')
   s.add_dependency('mustache', '~> 1.0')
   s.add_dependency('rabl')
+  s.add_dependency('acts_as_list')
 
   s.add_development_dependency('yard')
   s.add_development_dependency('sqlite3')

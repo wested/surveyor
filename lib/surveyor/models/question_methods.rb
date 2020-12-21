@@ -1,4 +1,5 @@
 require 'surveyor/common'
+require 'acts_as_list'
 
 module Surveyor
   module Models
@@ -9,6 +10,7 @@ module Surveyor
       include ActiveModel::ForbiddenAttributesProtection
 
       included do
+
         # Associations
         belongs_to :survey_section
         belongs_to :question_group
@@ -17,8 +19,12 @@ module Surveyor
         belongs_to :correct_answer, :class_name => "Answer", :dependent => :destroy
         attr_accessible *PermittedParams.new.question_attributes if defined? ActiveModel::MassAssignmentSecurity
 
+        acts_as_list scope: :survey_section_id, column: :display_order
+
+        default_scope lambda{ order('questions.display_order ASC')}
+
         # Validations
-        validates_presence_of :text, :display_order
+        validates_presence_of :text
         validates_inclusion_of :is_mandatory, :in => [true, false]
       end
 

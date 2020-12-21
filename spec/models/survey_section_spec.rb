@@ -13,15 +13,15 @@ describe SurveySection do
   end
 
   context "with questions" do
-    let(:question_1){ create(:question, :survey_section => survey_section, :display_order => 3, :text => "Peep")}
-    let(:question_2){ create(:question, :survey_section => survey_section, :display_order => 1, :text => "Little")}
-    let(:question_3){ create(:question, :survey_section => survey_section, :display_order => 2, :text => "Bo")}
-    before do
-      [question_1, question_2, question_3].each{|q| survey_section.questions << q }
-    end
+    let!(:question_2){ create(:question, :survey_section => survey_section, :text => "Little")}
+    let!(:question_1){ create(:question, :survey_section => survey_section, :text => "Peep")}
+    let!(:question_3){ create(:question, :survey_section => survey_section, display_order: 2, :text => "Bo")}
+    # before do
+    #   [question_1, question_2, question_3].each{|q| survey_section.questions << q }
+    # end
     it{ expect(survey_section.questions.size).to eq(3)}
     it "gets questions in order" do
-      expect(survey_section.questions.order("display_order asc")).to eq([question_2, question_3, question_1])
+      expect(survey_section.questions.order("display_order asc").to_a).to eq([question_2, question_3, question_1])
       expect(survey_section.questions.order("display_order asc").map(&:display_order)).to eq([1,2,3])
     end
     it "deletes child questions when deleted" do

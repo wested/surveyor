@@ -5,8 +5,9 @@ describe "saving with ajax", js: true do
   it "saves a simple radio button response" do
     response_set = start_survey('Everything')
     expect(page).to have_content("What is your favorite color?")
+    red = Answer.find_by text: "red"
     within question("1") do
-      choose "red"
+      find("input[value='#{red.id}']").trigger('click')
     end
     wait_for_ajax
     expect(response_set.count).to eq(1)
@@ -15,8 +16,9 @@ describe "saving with ajax", js: true do
   it "saves a simple checkbox response" do
     response_set = start_survey('Everything')
     expect(page).to have_content("Choose the colors you don't like")
+    purple = Answer.find_by(text: "purple")
     within question("2b") do
-      check "purple"
+      find("input[value='#{purple.id}']").trigger('click')
     end
     wait_for_ajax
     expect(response_set.count).to eq(1)
@@ -133,7 +135,7 @@ describe "saving with ajax", js: true do
 
     # FIXME
     puts "****** this fails but if you look at the screenshot it is actually there ******"
-    page.save_screenshot(File.join(Rails.root, "tmp", "grid.png"), :full => true)
+    # page.save_screenshot(File.join(Rails.root, "tmp", "grid.png"), :full => true)
     within( grid_row("weddings")) { choose "interested" }
 
     wait_for_ajax
@@ -190,19 +192,23 @@ describe "saving with ajax", js: true do
   end
   it "multiple exclusive checkboxes" do
     response_set = start_survey('Everything')
+    no_heating = Answer.find_by(text: "No other heating source")
+    electric = Answer.find_by(text: "Electric")
+    refused = Answer.where(text: "Refused").last
     click_button "Special"
 
-    check "No other heating source"
+    find("input[value='#{no_heating.id}']").trigger('click')
+
     expect(checkbox("heat2", "neg_1").disabled?).to be_truthy
     expect(checkbox("heat2", "neg_2").disabled?).to be_truthy
 
-    uncheck "No other heating source"
+    find("input[value='#{no_heating.id}']").trigger('click')
     expect(checkbox("heat2", "neg_1").disabled?).to be_falsey
 
-    check "Electric"
+    find("input[value='#{electric.id}']").trigger('click')
     expect(checkbox("heat2", "neg_1").disabled?).to be_falsey
 
-    check "Refused"
+    find("input[value='#{refused.id}']").trigger('click')
     expect(checkbox("heat2", "1").disabled?).to be_truthy
     expect(checkbox("heat2", "neg_2").disabled?).to be_truthy
   end

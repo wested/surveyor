@@ -279,8 +279,8 @@ module SurveyorParserQuestionMethods
                                               :reference_identifier => reference_identifier,
                                               :is_mandatory => context[:default_mandatory],
                                               :text => text,
-                                              :display_type => (original_method =~ /label|image/ ? original_method : "default"),
-                                              :display_order => context[:survey_section].questions.size }.merge(hash_args)).question
+                                              :display_type => (original_method =~ /label|image/ ? original_method : "default")
+                                               }.merge(hash_args)).question
     self.question_group = context[:question_group]
     context[:survey_section].questions << context[:question] = self
 

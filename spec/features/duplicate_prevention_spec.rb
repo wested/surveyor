@@ -5,9 +5,11 @@ describe "preventing duplicates", js: true do
   it "saves a simple radio button response" do
     response_set = start_survey('Everything')
     expect(page).to have_content("What is your favorite color?")
+    blue = Answer.find_by text: "blue"
+    red = Answer.find_by text: "red"
     within question("1") do
-      choose "blue"
-      choose "red"
+      find("input[value='#{blue.id}']").trigger('click')
+      find("input[value='#{red.id}']").trigger('click')
     end
     wait_for_ajax
     expect(response_set.count).to eq(1)
@@ -16,11 +18,15 @@ describe "preventing duplicates", js: true do
   it "saves a simple checkbox response" do
     response_set = start_survey('Everything')
     expect(page).to have_content("Choose the colors you don't like")
+    purple = Answer.find_by text: "purple"
+    orange = Answer.find_by text: "orange"
+    brown = Answer.find_by text: "brown"
+
     within question("2b") do
-      check "purple"
-      check "orange"
-      uncheck "orange"
-      check "brown"
+      find("input[value='#{purple.id}']").trigger('click')
+      find("input[value='#{orange.id}']").trigger('click')
+      find("input[value='#{orange.id}']").trigger('click')
+      find("input[value='#{brown.id}']").trigger('click')
     end
     wait_for_ajax
     expect(response_set.count).to eq(2)
