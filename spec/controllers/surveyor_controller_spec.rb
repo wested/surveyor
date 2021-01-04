@@ -12,21 +12,21 @@ describe SurveyorController do
   let!(:response_set_beta) { create(:response_set, :survey => survey_beta, :access_code => "rst")}
   before { allow(ResponseSet).to receive(:create).and_return(response_set) }
 
-  # match '/', :to                                     => 'surveyor#new', :as    => 'available_surveys', :via => :get
+  # match '/', :to                                     => 'surveyor#index', :as    => 'available_surveys', :via => :get
   # match '/:survey_code', :to                         => 'surveyor#create', :as => 'take_survey', :via       => :post
   # match '/:survey_code', :to                         => 'surveyor#export', :as => 'export_survey', :via     => :get
   # match '/:survey_code/:response_set_code', :to      => 'surveyor#show', :as   => 'view_my_survey', :via    => :get
   # match '/:survey_code/:response_set_code/take', :to => 'surveyor#edit', :as   => 'edit_my_survey', :via    => :get
   # match '/:survey_code/:response_set_code', :to      => 'surveyor#update', :as => 'update_my_survey', :via  => :put
 
-  context "#new" do
+  context "#index" do
     def do_get
-      get :new
+      get :index
     end
-    it "renders new" do
+    it "renders index" do
       do_get
       expect(response).to be_successful
-      expect(response).to render_template('new')
+      expect(response).to render_template('index')
     end
     it "assigns surveys_by_access_code" do
       do_get
