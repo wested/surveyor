@@ -17,9 +17,13 @@ module Surveyor
     end
 
     # Actions
-    def new
+    def index
       @surveys_by_access_code = Survey.order("created_at DESC, survey_version DESC").to_a.group_by(&:access_code)
       redirect_to surveyor_index unless surveyor_index == surveyor.available_surveys_path
+    end
+
+    def new
+      create
     end
 
     def create
