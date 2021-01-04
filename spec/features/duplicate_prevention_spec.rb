@@ -40,14 +40,17 @@ describe "preventing duplicates", js: true do
     within question("fire_engine") do
       fill_in "Color", with: "yellow"
     end
+
+    purple = Answer.find_by text: "purple"
     within question("2b") do
-      check "purple"
+      find("input[value='#{purple.id}']").trigger('click')
     end
+
     within question("fire_engine") do
       fill_in "Color", with: "red"
     end
     within question("2b") do
-      uncheck "purple"
+      find("input[value='#{purple.id}']").trigger('click')
     end
     wait_for_ajax
     expect(response_set.count).to eq(1)

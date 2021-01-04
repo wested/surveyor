@@ -41,7 +41,7 @@ module Surveyor
       end
 
       def text_for(position = nil, context = nil, locale = nil)
-        return "" if display_type == "hidden_label"
+        return "" if display_type == "hidden_label" || (response_class == "float" && position && position == :pre && translation(locale)[:text] == "default")
         imaged(split(in_context(translation(locale)[:text], context), position))
       end
       def help_text_for(context = nil, locale = nil)
