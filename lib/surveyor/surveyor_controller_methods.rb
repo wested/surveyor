@@ -27,12 +27,8 @@ module Surveyor
     end
 
     def create
-      surveys = Survey.where(:access_code => params[:survey_code]).order("survey_version DESC")
-      if params[:survey_version].blank?
-        @survey = surveys.first
-      else
-        @survey = surveys.where(:survey_version => params[:survey_version]).first
-      end
+      set_survey
+
       @response_set = ResponseSet.
         create(:survey => @survey, :user_id => (@current_user.nil? ? @current_user : @current_user.id))
       if (@survey && @response_set)
@@ -284,6 +280,15 @@ module Surveyor
         session[:surveyor_javascript] = "enabled"
       else
         session[:surveyor_javascript] = "not_enabled"
+      end
+    end
+
+    def set_survey
+      surveys = Survey.where(:access_code => params[:survey_code]).order("survey_version DESC")
+      if params[:survey_version].blank?
+        @survey = surveys.first
+      else
+        @survey = surveys.where(:survey_version => params[:survey_version]).first
       end
     end
   end
