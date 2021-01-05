@@ -1,4 +1,4 @@
-- unless (types = flash.keys.select{|k| ["notice", "error", "warning"].include?(k)}).blank?
+- unless (types = flash.keys.select{|k| ["notice", "error", "warning", "danger"].include?(k)}).blank?
   .surveyor_flash
     - types.each do | type |
       %div{:class => "alert alert-#{type.to_s == 'notice' ? 'success' : 'danger'}"}
