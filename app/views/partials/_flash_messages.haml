@@ -1,0 +1,6 @@
+- unless (types = flash.keys.select{|k| ["notice", "error", "warning"].include?(k)}).blank?
+  .surveyor_flash
+    - types.each do | type |
+      %div{:class => "alert alert-#{type.to_s == 'notice' ? 'success' : 'danger'}"}
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+        = content_tag :div, "#{flash[type]}".html_safe, :id => "flash_#{type}"
