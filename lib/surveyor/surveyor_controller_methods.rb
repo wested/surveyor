@@ -66,6 +66,7 @@ module Surveyor
         @section = (section_id_from(params) ? @sections.where(id: section_id_from(params)).first : @sections.first) || @sections.first
         @survey = @section.survey
         set_dependents
+        @response_set.ensure_start_timestamp!
       else
         flash[:notice] = t('surveyor.unable_to_find_your_responses')
         redirect_to surveyor_index
