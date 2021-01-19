@@ -31,7 +31,7 @@ module Surveyor
       end
 
       def ensure_start_timestamp!
-        self.update_attributes!(started_at: Time.now) if self.started_at.blank?
+        self.update_attributes!(started_at: Time.current) if self.started_at.blank?
       end
 
       def ensure_identifiers
@@ -68,7 +68,7 @@ module Surveyor
       end
 
       def complete!
-        self.completed_at = Time.now
+        self.completed_at = Time.current
       end
 
       def complete?
