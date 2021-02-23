@@ -80,7 +80,7 @@ namespace :surveyor do
     raise "No Survey found with #{params_string}" unless survey
     dir = ENV["OUTPUT_DIR"] || Rails.root
     mkpath(dir) # Create all non-existent directories
-    full_path = File.join(dir,"#{survey.access_code}_v#{survey.survey_version}_#{Time.now.to_i}.csv")
+    full_path = File.join(dir,"#{survey.access_code}_v#{survey.survey_version}_#{Time.current.to_i}.csv")
     File.open(full_path, 'w') do |f|
       survey.response_sets.each_with_index{|r,i| f.write(r.to_csv(true, i == 0)) } # print access code every time, print_header first time
     end

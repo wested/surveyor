@@ -19,7 +19,6 @@ module Surveyor
         validates_uniqueness_of :access_code
 
         # Derived attributes
-        before_create :ensure_start_timestamp
         before_create :ensure_identifiers
       end
 
@@ -31,8 +30,8 @@ module Surveyor
         end
       end
 
-      def ensure_start_timestamp
-        self.started_at ||= Time.now
+      def ensure_start_timestamp!
+        self.update_attributes!(started_at: Time.current) if self.started_at.blank?
       end
 
       def ensure_identifiers
@@ -69,7 +68,7 @@ module Surveyor
       end
 
       def complete!
-        self.completed_at = Time.now
+        self.completed_at = Time.current
       end
 
       def complete?

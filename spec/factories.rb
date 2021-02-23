@@ -122,7 +122,7 @@ FactoryBot.define do
     user_id         {}
     association     :survey  # survey_id       {}
     access_code     {Surveyor::Common.make_tiny_code}
-    started_at      {Time.now}
+    started_at      {}
     completed_at    {}
   end
 

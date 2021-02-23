@@ -44,17 +44,17 @@ module Surveyor
       end
 
       def active?
-        self.active_as_of?(DateTime.now)
+        self.active_as_of?(DateTime.current)
       end
       def active_as_of?(date)
         (active_at && active_at < date && (!inactive_at || inactive_at > date)) ? true : false
       end
       def activate!
-        self.active_at = DateTime.now
+        self.active_at = DateTime.current
         self.inactive_at = nil
       end
       def deactivate!
-        self.inactive_at = DateTime.now
+        self.inactive_at = DateTime.current
         self.active_at = nil
       end
 

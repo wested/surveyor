@@ -119,10 +119,29 @@ describe SurveyorController do
       survey.sections = [create(:survey_section, :survey => survey)]
       get :edit, params: { :survey_code => "alpha", :response_set_code => "pdq" }.merge(params)
     end
-    it "renders edit" do
+    it "renders edit and sets start_time" do
+      expect(response_set.started_at).to be_nil
       do_get
       expect(response).to be_successful
       expect(response).to render_template('edit')
+
+      response_set.reload
+      expect(response_set.started_at).to_not be_nil
+    end
+    it "should only set start_time the very first time the survey is edited" do
+      expect(response_set.started_at).to be_nil
+      do_get
+      expect(response).to be_successful
+      expect(response).to render_template('edit')
+
+      response_set.reload
+      expect(response_set.started_at).to_not be_nil
+      original_start_time = response_set.started_at
+
+      get :edit, params: { :survey_code => "alpha", :response_set_code => "pdq" }
+
+      expect(response_set.started_at).to eq original_start_time
+
     end
     it "assigns survey and response set" do
       do_get
