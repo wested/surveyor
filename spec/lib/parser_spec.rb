@@ -362,7 +362,7 @@ describe Surveyor::Parser do
           end
         end
       }
-      expect { Surveyor::Parser.parse(survey_text) }.to raise_error(Surveyor::ParserError, /Survey not saved: Title can't be blank/)
+      expect { Surveyor::Parser.parse(survey_text) }.to raise_error(ActiveRecord::RecordInvalid, /Validation failed: Title can't be blank/)
     end
     it "bad shortcuts" do
       survey_text = %q{

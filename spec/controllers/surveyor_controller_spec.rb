@@ -2,6 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe SurveyorController, type: :request do
 
+  include Surveyor::Engine.routes.url_helpers
+
   let!(:survey)           { create(:survey, :title => "Alphabet", :access_code => "alpha", :survey_version => 0)}
   let!(:survey_beta)      { create(:survey, :title => "Alphabet", :access_code => "alpha", :survey_version => 1)}
   let!(:response_set)      { create(:response_set, :survey => survey, :access_code => "pdq")}
@@ -218,7 +220,7 @@ describe SurveyorController, type: :request do
 
     context "with form submission" do
       def do_put(extra_params = {})
-        put edit_my_survey_path(update_params.merge(extra_params))
+        put update_my_survey_path(update_params.merge(extra_params))
       end
 
       it_behaves_like "#update action"
@@ -243,7 +245,7 @@ describe SurveyorController, type: :request do
 
     context 'with ajax' do
       def do_put(extra_params = {})
-        put surveyor.edit_my_survey_path(update_params.merge(extra_params)), xhr: true
+        put surveyor.update_my_survey_path(update_params.merge(extra_params)), xhr: true
       end
 
       it_behaves_like "#update action"
