@@ -36,7 +36,7 @@ describe Survey do
     it "doesn't adjust #title when" do
       original = create(:survey, :title => "Foo")
       expect(original.save).to be_truthy
-      original.update_attributes(:title => "Foo")
+      original.update(:title => "Foo")
       expect(original.title).to eq("Foo")
     end
     it "has #api_id with 36 characters by default" do

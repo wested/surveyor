@@ -12,11 +12,11 @@ module Surveyor
       included do
 
         # Associations
-        belongs_to :survey_section
-        belongs_to :question_group
+        belongs_to :survey_section, optional: true
+        belongs_to :question_group, optional: true
         has_many :answers, :dependent => :destroy, inverse_of: :question # it might not always have answers
         has_one :dependency, :dependent => :destroy
-        belongs_to :correct_answer, :class_name => "Answer", :dependent => :destroy
+        belongs_to :correct_answer, optional: true, :class_name => "Answer", :dependent => :destroy
         attr_accessible *PermittedParams.new.question_attributes if defined? ActiveModel::MassAssignmentSecurity
 
         acts_as_list scope: :survey_section_id, column: :display_order

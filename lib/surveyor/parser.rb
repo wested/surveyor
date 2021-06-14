@@ -91,11 +91,12 @@ module Surveyor
           report_lost_and_duplicate_references
           report_missing_default_locale
           Surveyor::Parser.rake_trace("", -2)
-          if context[:survey].save
-            Surveyor::Parser.rake_trace "Survey saved."
-          else
-            Surveyor::Parser.raise_error "Survey not saved: #{context[:survey].errors.full_messages.join(", ")}"
-          end
+          context[:survey].save!
+          # if context[:survey].save
+          #   Surveyor::Parser.rake_trace "Survey saved."
+          # else
+          #   Surveyor::Parser.raise_error "Survey not saved: #{context[:survey].errors.full_messages.join(", ")}"
+          # end
         else
           Surveyor::Parser.rake_trace("", -2)
           context[type.to_sym].clear(context)

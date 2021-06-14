@@ -13,6 +13,8 @@ module Testbed
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     #
+    #
+    config.load_defaults 6.1
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
@@ -28,6 +30,6 @@ module Testbed
 
     config.i18n.fallbacks = [I18n.default_locale]
 
-    Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
+    # Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
   end
 end

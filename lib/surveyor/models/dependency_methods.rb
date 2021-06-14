@@ -7,8 +7,8 @@ module Surveyor
 
       included do
         # Associations
-        belongs_to :question
-        belongs_to :question_group
+        belongs_to :question, optional: true
+        belongs_to :question_group, optional: true
         has_many :dependency_conditions, :dependent => :destroy
         attr_accessible *PermittedParams.new.dependency_attributes if defined? ActiveModel::MassAssignmentSecurity
 
