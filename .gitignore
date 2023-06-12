@@ -30,3 +30,6 @@ surveys/fixtures/*.yml
 
 ## rubymine
 .idea
+
+## asdf
+.tool-versions
