@@ -14,13 +14,12 @@ Gem::Specification.new do |s|
 
   s.files         = `git ls-files`.split("\n") - ['irb']
   s.test_files    = `git ls-files -- {test,spec}/*`.split("\n")
-  #s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
   s.add_dependency('rails', '~> 6.1')
   s.add_dependency('haml')
   s.add_dependency('sassc')
-  s.add_dependency('formtastic', "~> 3.1.5") # NOT COMPATIBLE with 4.0!!!!
+  s.add_dependency('formtastic', '>= 4.0.0')
   s.add_dependency('uuidtools', '~> 2.1')
   s.add_dependency('mustache', '~> 1.0')
   s.add_dependency('rabl')
@@ -29,9 +28,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency('yard')
   s.add_development_dependency('sqlite3')
   s.add_development_dependency('puma')
-  s.add_development_dependency('rspec-rails', '~> 3.0')
+  s.add_development_dependency('rspec-rails')
   s.add_development_dependency('rails-controller-testing')
-  s.add_development_dependency('capybara', '~> 3.5.1')
+  s.add_development_dependency('capybara')
   s.add_development_dependency('launchy', '~> 2.4.2')
   s.add_development_dependency('poltergeist')
   s.add_development_dependency('phantomjs', '~> 2.1')
@@ -39,6 +38,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('json_spec', '~> 1.1.1')
   s.add_development_dependency('factory_bot_rails')
   s.add_development_dependency('database_cleaner')
-  # s.add_development_dependency('rspec-retry') # needed to specify version compatible with rspec 2
 end
 
