@@ -8,7 +8,7 @@ module Surveyor
       included do
         # Associations
         has_many :questions, :dependent => :destroy
-        belongs_to :survey
+        belongs_to :survey, optional: true
         attr_accessible *PermittedParams.new.survey_section_attributes if defined? ActiveModel::MassAssignmentSecurity
 
         # Validations

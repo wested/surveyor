@@ -8,10 +8,10 @@ module Surveyor
 
       included do
         # Associations
-        belongs_to :answer
-        belongs_to :dependency
-        belongs_to :dependent_question, :foreign_key => :question_id, :class_name => :question
-        belongs_to :question
+        belongs_to :answer, optional: true
+        belongs_to :dependency, optional: true
+        belongs_to :dependent_question, optional: true, :foreign_key => :question_id, :class_name => :question
+        belongs_to :question, optional: true
         attr_accessible *PermittedParams.new.dependency_condition_attributes if defined? ActiveModel::MassAssignmentSecurity
 
         # Validations

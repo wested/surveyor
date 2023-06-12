@@ -8,7 +8,7 @@ module Surveyor
       included do
         # Associations
         belongs_to :survey
-        belongs_to :user
+        belongs_to :user, optional: true
         has_many :responses, :dependent => :destroy
         accepts_nested_attributes_for :responses, :allow_destroy => true
         attr_accessible *PermittedParams.new.response_set_attributes if defined? ActiveModel::MassAssignmentSecurity
@@ -31,7 +31,7 @@ module Surveyor
       end
 
       def ensure_start_timestamp!
-        self.update_attributes!(started_at: Time.current) if self.started_at.blank?
+        self.update!(started_at: Time.current) if self.started_at.blank?
       end
 
       def ensure_identifiers
@@ -177,7 +177,7 @@ module Surveyor
                 fail "Illegal attempt to change question for response #{api_id}."
               end
 
-              existing.update_attributes(updateable_attributes)
+              existing.update(updateable_attributes)
             else
               responses.build(updateable_attributes).tap do |r|
                 r.api_id = api_id

@@ -141,38 +141,38 @@ describe DependencyCondition do
     end
 
     it "with string value response" do
-      @a.update_attributes(:response_class => "string")
-      @r.update_attributes(:string_value => "hello123")
+      @a.update(:response_class => "string")
+      @r.update(:string_value => "hello123")
       @dc.string_value = "hello123"
       expect(@dc.to_hash(@rs)).to eq({:D => true})
-      @r.update_attributes(:string_value => "foo_abc")
+      @r.update(:string_value => "foo_abc")
       expect(@dc.to_hash(@rs)).to eq({:D => false})
     end
 
     it "with a text value response" do
-      @a.update_attributes(:response_class => "text")
-      @r.update_attributes(:text_value => "hello this is some text for comparison")
+      @a.update(:response_class => "text")
+      @r.update(:text_value => "hello this is some text for comparison")
       @dc.text_value = "hello this is some text for comparison"
       expect(@dc.to_hash(@rs)).to eq({:D => true})
-      @r.update_attributes(:text_value => "Not the same text")
+      @r.update(:text_value => "Not the same text")
       expect(@dc.to_hash(@rs)).to eq({:D => false})
     end
 
     it "with an integer value response" do
-      @a.update_attributes(:response_class => "integer")
-      @r.update_attributes(:integer_value => 10045)
+      @a.update(:response_class => "integer")
+      @r.update(:integer_value => 10045)
       @dc.integer_value = 10045
       expect(@dc.to_hash(@rs)).to eq({:D => true})
-      @r.update_attributes(:integer_value => 421)
+      @r.update(:integer_value => 421)
       expect(@dc.to_hash(@rs)).to eq({:D => false})
     end
 
     it "with a float value response" do
-      @a.update_attributes(:response_class => "float")
-      @r.update_attributes(:float_value => 121.1)
+      @a.update(:response_class => "float")
+      @r.update(:float_value => 121.1)
       @dc.float_value = 121.1
       expect(@dc.to_hash(@rs)).to eq({:D => true})
-      @r.update_attributes(:float_value => 130.123)
+      @r.update(:float_value => 130.123)
       expect(@dc.to_hash(@rs)).to eq({:D => false})
     end
   end
@@ -194,38 +194,38 @@ describe DependencyCondition do
     end
 
     it "with string value response" do
-      @a.update_attributes(:response_class => "string")
-      @r.update_attributes(:string_value => "hello123")
+      @a.update(:response_class => "string")
+      @r.update(:string_value => "hello123")
       @dc.string_value = "hello123"
       expect(@dc.to_hash(@rs)).to eq({:E => false})
-      @r.update_attributes(:string_value => "foo_abc")
+      @r.update(:string_value => "foo_abc")
       expect(@dc.to_hash(@rs)).to eq({:E => true})
     end
 
     it "with a text value response" do
-      @a.update_attributes(:response_class => "text")
-      @r.update_attributes(:text_value => "hello this is some text for comparison")
+      @a.update(:response_class => "text")
+      @r.update(:text_value => "hello this is some text for comparison")
       @dc.text_value = "hello this is some text for comparison"
       expect(@dc.to_hash(@rs)).to eq({:E => false})
-      @r.update_attributes(:text_value => "Not the same text")
+      @r.update(:text_value => "Not the same text")
       expect(@dc.to_hash(@rs)).to eq({:E => true})
     end
 
     it "with an integer value response" do
-      @a.update_attributes(:response_class => "integer")
-      @r.update_attributes(:integer_value => 10045)
+      @a.update(:response_class => "integer")
+      @r.update(:integer_value => 10045)
       @dc.integer_value = 10045
       expect(@dc.to_hash(@rs)).to eq({:E => false})
-      @r.update_attributes(:integer_value => 421)
+      @r.update(:integer_value => 421)
       expect(@dc.to_hash(@rs)).to eq({:E => true})
     end
 
     it "with a float value response" do
-      @a.update_attributes(:response_class => "float")
-      @r.update_attributes(:float_value => 121.1)
+      @a.update(:response_class => "float")
+      @r.update(:float_value => 121.1)
       @dc.float_value = 121.1
       expect(@dc.to_hash(@rs)).to eq({:E => false})
-      @r.update_attributes(:float_value => 130.123)
+      @r.update(:float_value => 130.123)
       expect(@dc.to_hash(@rs)).to eq({:E => true})
     end
   end
@@ -241,20 +241,20 @@ describe DependencyCondition do
     end
 
     it "with an integer value response" do
-      @a.update_attributes(:response_class => "integer")
-      @r.update_attributes(:integer_value => 50)
+      @a.update(:response_class => "integer")
+      @r.update(:integer_value => 50)
       @dc.integer_value = 100
       expect(@dc.to_hash(@rs)).to eq({:F => true})
-      @r.update_attributes(:integer_value => 421)
+      @r.update(:integer_value => 421)
       expect(@dc.to_hash(@rs)).to eq({:F => false})
     end
 
     it "with a float value response" do
-      @a.update_attributes(:response_class => "float")
-      @r.update_attributes(:float_value => 5.1)
+      @a.update(:response_class => "float")
+      @r.update(:float_value => 5.1)
       @dc.float_value = 121.1
       expect(@dc.to_hash(@rs)).to eq({:F => true})
-      @r.update_attributes(:float_value => 130.123)
+      @r.update(:float_value => 130.123)
       expect(@dc.to_hash(@rs)).to eq({:F => false})
     end
   end
@@ -270,24 +270,24 @@ describe DependencyCondition do
     end
 
     it "with an integer value response" do
-      @a.update_attributes(:response_class => "integer")
-      @r.update_attributes(:integer_value => 50)
+      @a.update(:response_class => "integer")
+      @r.update(:integer_value => 50)
       @dc.integer_value = 100
       expect(@dc.to_hash(@rs)).to eq({:G => true})
-      @r.update_attributes(:integer_value => 100)
+      @r.update(:integer_value => 100)
       expect(@dc.to_hash(@rs)).to eq({:G => true})
-      @r.update_attributes(:integer_value => 421)
+      @r.update(:integer_value => 421)
       expect(@dc.to_hash(@rs)).to eq({:G => false})
     end
 
     it "with a float value response" do
-      @a.update_attributes(:response_class => "float")
-      @r.update_attributes(:float_value => 5.1)
+      @a.update(:response_class => "float")
+      @r.update(:float_value => 5.1)
       @dc.float_value = 121.1
       expect(@dc.to_hash(@rs)).to eq({:G => true})
-      @r.update_attributes(:float_value => 121.1)
+      @r.update(:float_value => 121.1)
       expect(@dc.to_hash(@rs)).to eq({:G => true})
-      @r.update_attributes(:float_value => 130.123)
+      @r.update(:float_value => 130.123)
       expect(@dc.to_hash(@rs)).to eq({:G => false})
     end
 
@@ -304,20 +304,20 @@ describe DependencyCondition do
     end
 
     it "with an integer value response" do
-      @a.update_attributes(:response_class => "integer")
-      @r.update_attributes(:integer_value => 50)
+      @a.update(:response_class => "integer")
+      @r.update(:integer_value => 50)
       @dc.integer_value = 100
       expect(@dc.to_hash(@rs)).to eq({:H => false})
-      @r.update_attributes(:integer_value => 421)
+      @r.update(:integer_value => 421)
       expect(@dc.to_hash(@rs)).to eq({:H => true})
     end
 
     it "with a float value response" do
-      @a.update_attributes(:response_class => "float")
-      @r.update_attributes(:float_value => 5.1)
+      @a.update(:response_class => "float")
+      @r.update(:float_value => 5.1)
       @dc.float_value = 121.1
       expect(@dc.to_hash(@rs)).to eq({:H => false})
-      @r.update_attributes(:float_value => 130.123)
+      @r.update(:float_value => 130.123)
       expect(@dc.to_hash(@rs)).to eq({:H => true})
     end
   end
@@ -333,24 +333,24 @@ describe DependencyCondition do
     end
 
     it "with an integer value response" do
-      @a.update_attributes(:response_class => "integer")
-      @r.update_attributes(:integer_value => 50)
+      @a.update(:response_class => "integer")
+      @r.update(:integer_value => 50)
       @dc.integer_value = 100
       expect(@dc.to_hash(@rs)).to eq({:I => false})
-      @r.update_attributes(:integer_value => 100)
+      @r.update(:integer_value => 100)
       expect(@dc.to_hash(@rs)).to eq({:I => true})
-      @r.update_attributes(:integer_value => 421)
+      @r.update(:integer_value => 421)
       expect(@dc.to_hash(@rs)).to eq({:I => true})
     end
 
     it "with a float value response" do
-      @a.update_attributes(:response_class => "float")
-      @r.update_attributes(:float_value => 5.1)
+      @a.update(:response_class => "float")
+      @r.update(:float_value => 5.1)
       @dc.float_value = 121.1
       expect(@dc.to_hash(@rs)).to eq({:I => false})
-      @r.update_attributes(:float_value => 121.1)
+      @r.update(:float_value => 121.1)
       expect(@dc.to_hash(@rs)).to eq({:I => true})
-      @r.update_attributes(:float_value => 130.123)
+      @r.update(:float_value => 130.123)
       expect(@dc.to_hash(@rs)).to eq({:I => true})
     end
   end
@@ -373,7 +373,7 @@ describe DependencyCondition do
       @dc = create(:dependency_condition, :question => @a.question, :answer => @a, :operator => "==", :rule_key => "K", :string_value => "foo")
       expect(@dc.to_hash(@rs)).to eq({:K => true})
 
-      @r.update_attributes(:string_value => "")
+      @r.update(:string_value => "")
       @dc.string_value = ""
       expect(@dc.to_hash(@rs)).to eq({:K => true})
     end
