@@ -2,10 +2,11 @@
 # http://github.com/thoughtbot/factory_girl/tree/master
 require 'rubygems'
 require 'factory_bot'
+require 'securerandom'
 
 FactoryBot.define do
 
-  sequence(:unique_survey_access_code){|n| "simple survey #{UUIDTools::UUID.random_create.to_s}" }
+  sequence(:unique_survey_access_code){|n| "simple survey #{SecureRandom.uuid}" }
 
   factory :survey do
     title           { "Simple survey" }

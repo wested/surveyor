@@ -39,6 +39,7 @@ module Surveyor
       api_ids_must_be_unique
       create_survey_translations
       add_input_mask_attributes_to_answer
+      add_public_to_surveys
     )
 
     def readme
@@ -78,6 +79,11 @@ module Surveyor
 
     private
 
+    def self.next_migration_number(dirname)
+      next_migration_number = current_migration_number(dirname) + 1
+      ActiveRecord::Migration.next_migration_number(next_migration_number)
+    end
+
     def check_for_existing_migrations(name)
       Dir.glob("db/migrate/[0-9]*_*.rb").grep(/[0-9]+_#{name}.rb$/)
     end
@@ -97,7 +103,7 @@ module Surveyor
       if self.class.migration_exists?("db/migrate", "#{filename}")
         say_status("skipped", "Migration #{filename}.rb already exists")
       else
-        migration_template "migrations/#{filename}.rb", "db/migrate/#{filename}.rb"
+        migration_template "db/migrate/#{filename}.rb", "db/migrate/#{filename}.rb"
       end
     end
   end

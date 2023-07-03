@@ -5,7 +5,7 @@ namespace :surveyor do
   task :parse => :environment do
     raise "USAGE: file name required e.g. 'FILE=surveys/kitchen_sink_survey.rb'" if ENV["FILE"].blank?
     file = File.join(Rails.root, ENV["FILE"])
-    raise "File does not exist: #{file}" unless FileTest.exists?(file)
+    raise "File does not exist: #{file}" unless FileTest.exist?(file)
     puts "--- Parsing #{file} ---"
     Surveyor::Parser.parse_file(file, {:trace => Rake.application.options.trace})
     puts "--- Done #{file} ---"
@@ -14,7 +14,7 @@ namespace :surveyor do
   task :redcap => :environment do
     raise "USAGE: file name required e.g. 'FILE=surveys/redcap_demo_survey.csv'" if ENV["FILE"].blank?
     file = File.join(Rails.root, ENV["FILE"])
-    raise "File does not exist: #{file}" unless FileTest.exists?(file)
+    raise "File does not exist: #{file}" unless FileTest.exist?(file)
     puts "--- Parsing #{file} ---"
     Surveyor::RedcapParser.parse File.read(file), File.basename(file, ".csv"), {:trace => Rake.application.options.trace}
     puts "--- Done #{file} ---"
