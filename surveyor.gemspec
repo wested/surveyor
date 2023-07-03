@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
 
   s.authors = ["Brian Chamberlain", "Mark Yoon"]
   s.email = %q{yoon@northwestern.edu}
-  s.homepage = %q{http://github.com/NUBIC/surveyor}
+  s.homepage = %q{https://github.com/wested/surveyor}
   s.post_install_message = %q{Thanks for using surveyor! Remember to run the surveyor generator and migrate your database, even if you are upgrading.}
   s.summary = %q{A rails (gem) plugin to enable surveys in your application}
 
@@ -17,11 +17,10 @@ Gem::Specification.new do |s|
   #s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency('rails', '~> 6.1')
+  s.add_dependency('rails', '~> 7.0')
   s.add_dependency('haml')
   s.add_dependency('sassc')
-  s.add_dependency('formtastic', "~> 3.1.5") # NOT COMPATIBLE with 4.0!!!!
-  s.add_dependency('uuidtools', '~> 2.1')
+  s.add_dependency('formtastic', "~> 4.0.0")
   s.add_dependency('mustache', '~> 1.0')
   s.add_dependency('rabl')
   s.add_dependency('acts_as_list')
@@ -29,7 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('yard')
   s.add_development_dependency('sqlite3')
   s.add_development_dependency('puma')
-  s.add_development_dependency('rspec-rails', '~> 3.0')
+  s.add_development_dependency('rspec-rails', '~> 6.0.0')
   s.add_development_dependency('rails-controller-testing')
   s.add_development_dependency('capybara', '~> 3.5.1')
   s.add_development_dependency('launchy', '~> 2.4.2')
