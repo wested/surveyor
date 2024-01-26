@@ -1,5 +1,3 @@
-%w(survey survey_translation survey_section question_group question dependency dependency_condition answer validation validation_condition).each {|model| require model }
-
 require 'yaml'
 
 module Surveyor

@@ -1,4 +1,3 @@
-%w(survey survey_section question_group question dependency dependency_condition answer validation validation_condition).each {|model| require model }
 require 'active_support' # for humanize
 module Surveyor
   class RedcapParserError < StandardError; end
