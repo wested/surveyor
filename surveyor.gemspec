@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec}/*`.split("\n")
   s.require_paths = ["lib"]
 
-  s.add_dependency('rails', '~> 6.1')
+  s.add_dependency('rails', '~> 7.0')
   s.add_dependency('haml')
   s.add_dependency('sassc')
   s.add_dependency('formtastic', '>= 4.0.0')
@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency('mustache', '~> 1.0')
   s.add_dependency('rabl')
   s.add_dependency('acts_as_list')
+  s.add_dependency('sprockets-rails')
 
   s.add_development_dependency('yard')
   s.add_development_dependency('sqlite3', '~> 1.4')
