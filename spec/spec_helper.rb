@@ -10,7 +10,6 @@ require 'rspec/rails'
 
 require 'capybara/rails'
 require 'capybara/rspec'
-require 'capybara/poltergeist'
 require 'factories'
 require 'json_spec'
 require 'database_cleaner'
@@ -34,7 +33,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :selenium_chrome_headless
 
 
 RSpec.configure do |config|
