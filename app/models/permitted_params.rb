@@ -1,4 +1,11 @@
 class PermittedParams < Struct.new(:params)
+  def initialize(*args, **kwargs)
+    if args.count > 0
+      super(args.first)
+    else
+      super(kwargs)
+    end
+  end
   # per http://railscasts.com/episodes/371-strong-parameters
   def strong_parameters
     if params.is_a?(ActionController::Parameters)

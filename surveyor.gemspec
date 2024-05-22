@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency('acts_as_list')
 
   s.add_development_dependency('yard')
-  s.add_development_dependency('sqlite3')
+  s.add_development_dependency('sqlite3', '~> 1.4')
   s.add_development_dependency('puma')
   s.add_development_dependency('rspec-rails')
   s.add_development_dependency('rails-controller-testing')
