@@ -50,3 +50,4 @@ end
 
 gem 'sprockets-rails', require: 'sprockets/railtie'
 gem 'puma'
+gem 'sassc-rails'

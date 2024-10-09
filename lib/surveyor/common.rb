@@ -1,5 +1,4 @@
 require 'securerandom'
-require 'uuidtools'
 
 module Surveyor
   class Common
@@ -35,7 +34,7 @@ module Surveyor
       alias :normalize :to_normalized_string
 
       def generate_api_id
-        UUIDTools::UUID.random_create.to_s
+        SecureRandom.uuid
       end
 
       ##
