@@ -7,7 +7,7 @@ plugin_root = File.expand_path('../..', __FILE__)
 eval(File.read File.join(plugin_root, 'Gemfile.rails_version'))
 gem 'surveyor', :path => plugin_root
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'sqlite3', '~> 1.4'
 # Use SCSS for stylesheets
 # gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
@@ -48,3 +48,6 @@ group :development do
   # gem 'spring'
 end
 
+gem 'sprockets-rails', require: 'sprockets/railtie'
+gem 'puma'
+gem 'sassc-rails'

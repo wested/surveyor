@@ -16,14 +16,14 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec}/*`.split("\n")
   s.require_paths = ["lib"]
 
-  s.add_dependency('rails', '~> 6.1')
+  s.add_dependency('rails', '~> 7.0.8')
   s.add_dependency('haml')
   s.add_dependency('sassc')
   s.add_dependency('formtastic', '>= 4.0.0')
-  s.add_dependency('uuidtools', '~> 2.1')
   s.add_dependency('mustache', '~> 1.0')
   s.add_dependency('rabl')
   s.add_dependency('acts_as_list')
+  s.add_dependency('sprockets-rails')
 
   s.add_development_dependency('yard')
   s.add_development_dependency('sqlite3', '~> 1.4')
@@ -31,10 +31,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rspec-rails')
   s.add_development_dependency('rails-controller-testing')
   s.add_development_dependency('capybara')
-  s.add_development_dependency('launchy', '~> 2.4.2')
   s.add_development_dependency('selenium-webdriver')
-  s.add_development_dependency('cliver', '~> 0.3')
-  s.add_development_dependency('json_spec', '~> 1.1.1')
+  s.add_development_dependency('json_spec', '~> 1.1.5')
   s.add_development_dependency('factory_bot_rails')
   s.add_development_dependency('database_cleaner')
 end

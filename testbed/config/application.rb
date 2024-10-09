@@ -9,9 +9,7 @@ Bundler.require(*Rails.groups)
 module Testbed
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
-
-    config.assets.paths << Rails.root.join("app", "assets", "fonts")
+    config.load_defaults 7.0
 
     # Configuration for the application, engines, and railties goes here.
     #

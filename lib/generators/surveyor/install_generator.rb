@@ -39,6 +39,7 @@ module Surveyor
       api_ids_must_be_unique
       create_survey_translations
       add_input_mask_attributes_to_answer
+      add_public_to_surveys
     )
 
     def readme
@@ -77,6 +78,11 @@ module Surveyor
     end
 
     private
+
+    def self.next_migration_number(dirname)
+      next_migration_number = current_migration_number(dirname) + 1
+      ActiveRecord::Migration.next_migration_number(next_migration_number)
+    end
 
     def check_for_existing_migrations(name)
       Dir.glob("db/migrate/[0-9]*_*.rb").grep(/[0-9]+_#{name}.rb$/)
