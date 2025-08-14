@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec}/*`.split("\n")
   s.require_paths = ["lib"]
 
-  s.add_dependency('rails', '~> 7.1.0')
+  s.add_dependency('rails', '~> 7.2.0')
   s.add_dependency('haml')
   s.add_dependency('sassc')
   s.add_dependency('formtastic', '>= 4.0.0')
